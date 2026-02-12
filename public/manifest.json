@@ -1,0 +1,23 @@
+{
+  "name": "Mystica - Tu Portal Místico",
+  "short_name": "Mystica",
+  "description": "Tarot, Runas, Astrología y más en tu camino místico",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f0f1a",
+  "theme_color": "#8b5cf6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["lifestyle", "entertainment"],
+  "developer": {
+    "name": "Yrys",
+    "url": "https://github.com/elkalivpn"
+  }
+}

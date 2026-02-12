@@ -30,16 +30,37 @@
 @layer base {
   * {
     @apply border-border;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  html {
+    scroll-behavior: smooth;
   }
   
   body {
     @apply bg-background text-foreground;
+    touch-action: manipulation;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Safe area for mobile devices (iPhone notch, etc.) */
+  .safe-area-inset {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* Prevent overscroll bounce on iOS */
+  .overscroll-none {
+    overscroll-behavior: none;
   }
 
   /* Custom scrollbar */
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
   }
 
   ::-webkit-scrollbar-track {
@@ -59,6 +80,14 @@
   ::selection {
     background: hsl(271.5 81.3% 55.9% / 0.3);
     color: white;
+  }
+
+  /* Mobile touch feedback */
+  @media (hover: none) {
+    button:active,
+    a:active {
+      opacity: 0.8;
+    }
   }
 }
 

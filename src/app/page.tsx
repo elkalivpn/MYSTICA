@@ -199,13 +199,31 @@ export default function HomePage() {
       )}
 
       {/* Footer */}
-      <footer className="py-12 px-4 sm:px-6 lg:px-8 border-t border-mystica-purple-800/30">
+      <footer className="py-8 px-4 sm:px-6 lg:px-8 border-t border-mystica-purple-800/30 bg-mystica-dark-300/80">
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Moon className="w-6 h-6 text-mystica-purple-400" />
             <span className="text-xl font-bold bg-gradient-to-r from-mystica-purple-400 to-mystica-gold-400 bg-clip-text text-transparent">Mystica</span>
           </div>
-          <p className="text-gray-400 mb-4">© 2024 Mystica. Todos los derechos reservados.</p>
+          <p className="text-gray-400 mb-3 text-sm">© 2024 Mystica. Todos los derechos reservados.</p>
+          
+          {/* Developer Credit */}
+          <div className="mb-4 py-3 px-4 rounded-lg bg-mystica-dark-200/50 inline-block">
+            <p className="text-mystica-purple-300 text-sm">
+              ✨ Desarrollado con 💜 por <span className="font-semibold text-mystica-gold-400">Yrys</span> ✨
+            </p>
+          </div>
+          
+          {/* Links */}
+          <div className="flex items-center justify-center gap-4 mb-4 text-sm">
+            <Link href="/agradecimientos" className="text-gray-500 hover:text-mystica-purple-300 transition-colors">
+              Agradecimientos
+            </Link>
+            <span className="text-gray-700">•</span>
+            <Link href="/premium" className="text-gray-500 hover:text-mystica-gold-400 transition-colors">
+              Patrocinar
+            </Link>
+          </div>
         </div>
       </footer>
 

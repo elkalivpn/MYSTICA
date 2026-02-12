@@ -151,8 +151,28 @@ export default function PremiumPage() {
         {/* Testimonials */}
         <div className="mt-12 text-center">
           <p className="text-gray-400 mb-4">¿Tienes dudas?</p>
-          <p className="text-white">Prueba gratis por 7 días. Cancela cuando quieras.</p>
+          <p className="text-white mb-2">Prueba gratis por 7 días. Cancela cuando quieras.</p>
         </div>
+
+        {/* Sponsor Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mt-12"
+        >
+          <Card className="bg-gradient-to-br from-mystica-purple-900/30 to-mystica-dark-200 border-mystica-purple-500/30">
+            <CardContent className="p-8 text-center">
+              <p className="text-mystica-purple-300 mb-2 text-sm">✨</p>
+              <p className="text-white mb-4">
+                Al suscribirte a Premium, apoyas el desarrollo continuo de Mystica
+              </p>
+              <p className="text-mystica-gold-400 text-sm">
+                Desarrollado con 💜 por <span className="font-semibold">Yrys</span>
+              </p>
+            </CardContent>
+          </Card>
+        </motion.div>
       </main>
     </div>
   )
