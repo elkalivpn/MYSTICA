@@ -1,5 +1,69 @@
 @import "tailwindcss";
 
+/* Tailwind v4 theme configuration */
+@theme {
+  /* Mystica Purple */
+  --color-mystica-purple-50: #f5f3ff;
+  --color-mystica-purple-100: #ede9fe;
+  --color-mystica-purple-200: #ddd6fe;
+  --color-mystica-purple-300: #c4b5fd;
+  --color-mystica-purple-400: #a78bfa;
+  --color-mystica-purple-500: #8b5cf6;
+  --color-mystica-purple-600: #7c3aed;
+  --color-mystica-purple-700: #6d28d9;
+  --color-mystica-purple-800: #5b21b6;
+  --color-mystica-purple-900: #4c1d95;
+  --color-mystica-purple-950: #2e1065;
+
+  /* Mystica Dark */
+  --color-mystica-dark-100: #1a1a2e;
+  --color-mystica-dark-200: #16162a;
+  --color-mystica-dark-300: #0f0f1a;
+  --color-mystica-dark-400: #0a0a12;
+  --color-mystica-dark-500: #050508;
+
+  /* Mystica Gold */
+  --color-mystica-gold-50: #fffbeb;
+  --color-mystica-gold-100: #fef3c7;
+  --color-mystica-gold-200: #fde68a;
+  --color-mystica-gold-300: #fcd34d;
+  --color-mystica-gold-400: #fbbf24;
+  --color-mystica-gold-500: #f59e0b;
+  --color-mystica-gold-600: #d97706;
+  --color-mystica-gold-700: #b45309;
+  --color-mystica-gold-800: #92400e;
+  --color-mystica-gold-900: #78350f;
+
+  /* Animations */
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-glow: pulse-glow 2s ease-in-out infinite;
+  --animate-spin-slow: spin 20s linear infinite;
+  --animate-shimmer: shimmer 2s linear infinite;
+
+  /* Custom font */
+  --font-family-mystica: 'Cinzel', serif;
+
+  /* Border radius */
+  --radius-lg: 0.5rem;
+  --radius-md: calc(0.5rem - 2px);
+  --radius-sm: calc(0.5rem - 4px);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; box-shadow: 0 0 20px rgba(139, 92, 246, 0.5); }
+  50% { opacity: 0.8; box-shadow: 0 0 40px rgba(139, 92, 246, 0.8); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
 @layer base {
   :root {
     --background: 0 0% 3.9%;
@@ -22,24 +86,17 @@
     --input: 271.5 50% 20%;
     --ring: 271.5 81.3% 55.9%;
     --radius: 0.5rem;
-    --chart-1: 271.5 81.3% 55.9%;
-    --chart-2: 45 93% 47%;
-    --chart-3: 0 62.8% 30.6%;
-    --chart-4: 200 50% 50%;
-    --chart-5: 300 50% 50%;
   }
-}
 
-@layer base {
   * {
     border-color: hsl(var(--border));
     -webkit-tap-highlight-color: transparent;
   }
-  
+
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
@@ -48,7 +105,6 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Safe area for mobile devices (iPhone notch, etc.) */
   .safe-area-inset {
     padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
@@ -56,12 +112,6 @@
     padding-right: env(safe-area-inset-right);
   }
 
-  /* Prevent overscroll bounce on iOS */
-  .overscroll-none {
-    overscroll-behavior: none;
-  }
-
-  /* Custom scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -76,17 +126,11 @@
     border-radius: 4px;
   }
 
-  ::-webkit-scrollbar-thumb:hover {
-    background: hsl(271.5 50% 40%);
-  }
-
-  /* Selection */
   ::selection {
     background: hsl(271.5 81.3% 55.9% / 0.3);
     color: white;
   }
 
-  /* Mobile touch feedback */
   @media (hover: none) {
     button:active,
     a:active {
@@ -96,7 +140,6 @@
 }
 
 @layer utilities {
-  /* Mystica specific utilities */
   .text-gradient-mystica {
     background: linear-gradient(to right, #a78bfa, #fbbf24);
     -webkit-background-clip: text;
@@ -108,7 +151,6 @@
     background: linear-gradient(135deg, hsl(271.5 81.3% 15%) 0%, hsl(271.5 50% 8%) 100%);
   }
 
-  /* 3D Card perspective */
   .perspective-1000 {
     perspective: 1000px;
   }
@@ -117,7 +159,6 @@
     backface-visibility: hidden;
   }
 
-  /* Glow effects */
   .glow-purple {
     box-shadow: 0 0 20px hsl(271.5 81.3% 55.9% / 0.3);
   }
@@ -126,7 +167,6 @@
     box-shadow: 0 0 20px hsl(45 93% 47% / 0.3);
   }
 
-  /* Font runic */
   .font-runic {
     font-family: 'Noto Sans Runic', serif;
   }
