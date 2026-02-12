@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 @layer base {
   :root {
@@ -24,12 +22,17 @@
     --input: 271.5 50% 20%;
     --ring: 271.5 81.3% 55.9%;
     --radius: 0.5rem;
+    --chart-1: 271.5 81.3% 55.9%;
+    --chart-2: 45 93% 47%;
+    --chart-3: 0 62.8% 30.6%;
+    --chart-4: 200 50% 50%;
+    --chart-5: 300 50% 50%;
   }
 }
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: hsl(var(--border));
     -webkit-tap-highlight-color: transparent;
   }
   
@@ -38,7 +41,8 @@
   }
   
   body {
-    @apply bg-background text-foreground;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
     touch-action: manipulation;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -94,7 +98,10 @@
 @layer utilities {
   /* Mystica specific utilities */
   .text-gradient-mystica {
-    @apply bg-gradient-to-r from-mystica-purple-400 to-mystica-gold-400 bg-clip-text text-transparent;
+    background: linear-gradient(to right, #a78bfa, #fbbf24);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .bg-mystica-gradient {

@@ -10,7 +10,6 @@ export const metadata: Metadata = {
   title: 'Mystica - Tu Portal al Mundo Místico',
   description: 'Explora el tarot, runas, astrología, calendario lunar y más en tu camino místico.',
   manifest: '/manifest.json',
-  themeColor: '#8b5cf6',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
@@ -37,7 +36,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  viewportFit: 'cover'
+  viewportFit: 'cover',
+  themeColor: '#8b5cf6'
 }
 
 export default function RootLayout({
