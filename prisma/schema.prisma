@@ -1,0 +1,149 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// Mystica - Multi-provider Database Schema
+// ============================================
+// Supported providers: SQLite (default), Supabase, Firebase
+// The schema is designed to work with all providers
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  role      String   @default("user") // user, premium, admin
+  settings  String?  // JSON string for user preferences
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  meditationSessions MeditationSession[]
+  tarotReadings      TarotReading[]
+  progress           UserProgress?
+  reminders          Reminder[]
+  subscription       Subscription?
+
+  @@index([email])
+  @@index([role])
+}
+
+model MeditationSession {
+  id          String   @id @default(cuid())
+  userId      String
+  meditationId String  // Reference to meditation content
+  duration    Int      // Duration in seconds
+  completed   Boolean  @default(false)
+  date        DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([date])
+  @@index([meditationId])
+}
+
+model TarotReading {
+  id            String   @id @default(cuid())
+  userId        String
+  cards         String   // JSON string with array of card IDs
+  interpretation String? // AI-generated interpretation
+  spreadType    String   @default("single") // single, three-card, celtic-cross
+  date          DateTime @default(now())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([date])
+}
+
+model UserProgress {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  xp           Int      @default(0)
+  level        Int      @default(1)
+  achievements String   @default("[]") // JSON array of achievement IDs
+  streak       Int      @default(0)
+  lastActive   DateTime @default(now())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([level])
+}
+
+model Reminder {
+  id        String   @id @default(cuid())
+  userId    String
+  time      String   // Format: "HH:MM"
+  days      String   @default("[0,1,2,3,4,5,6]") // JSON array: 0=Sunday, 6=Saturday
+  enabled   Boolean  @default(true)
+  message   String?
+  type      String   @default("meditation") // meditation, affirmation, ritual
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([enabled])
+}
+
+model Subscription {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  plan      String   @default("free") // free, premium, pro
+  startDate DateTime @default(now())
+  endDate   DateTime?
+  status    String   @default("active") // active, expired, cancelled
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Stripe fields
+  stripeCustomerId     String?  @unique
+  stripeSubscriptionId String?  @unique
+  stripePriceId        String?
+  stripeCurrentPeriodEnd DateTime?
+  stripeCancelAtPeriodEnd Boolean @default(false)
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+  @@index([plan])
+  @@index([stripeCustomerId])
+  @@index([stripeSubscriptionId])
+}
+
+// Legacy model - kept for backwards compatibility
+model Post {
+  id        String   @id @default(cuid())
+  title     String
+  content   String?
+  published Boolean  @default(false)
+  authorId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

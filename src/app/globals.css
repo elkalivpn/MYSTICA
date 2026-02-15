@@ -1,0 +1,552 @@
+@import "tailwindcss";
+
+/* Tailwind v4 theme configuration */
+@theme {
+  /* Mystica Purple */
+  --color-mystica-purple-50: #f5f3ff;
+  --color-mystica-purple-100: #ede9fe;
+  --color-mystica-purple-200: #ddd6fe;
+  --color-mystica-purple-300: #c4b5fd;
+  --color-mystica-purple-400: #a78bfa;
+  --color-mystica-purple-500: #8b5cf6;
+  --color-mystica-purple-600: #7c3aed;
+  --color-mystica-purple-700: #6d28d9;
+  --color-mystica-purple-800: #5b21b6;
+  --color-mystica-purple-900: #4c1d95;
+  --color-mystica-purple-950: #2e1065;
+
+  /* Mystica Dark */
+  --color-mystica-dark-100: #1a1a2e;
+  --color-mystica-dark-200: #16162a;
+  --color-mystica-dark-300: #0f0f1a;
+  --color-mystica-dark-400: #0a0a12;
+  --color-mystica-dark-500: #050508;
+
+  /* Mystica Gold */
+  --color-mystica-gold-50: #fffbeb;
+  --color-mystica-gold-100: #fef3c7;
+  --color-mystica-gold-200: #fde68a;
+  --color-mystica-gold-300: #fcd34d;
+  --color-mystica-gold-400: #fbbf24;
+  --color-mystica-gold-500: #f59e0b;
+  --color-mystica-gold-600: #d97706;
+  --color-mystica-gold-700: #b45309;
+  --color-mystica-gold-800: #92400e;
+  --color-mystica-gold-900: #78350f;
+
+  /* Animations */
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-glow: pulse-glow 2s ease-in-out infinite;
+  --animate-spin-slow: spin 20s linear infinite;
+  --animate-shimmer: shimmer 2s linear infinite;
+  --animate-glow-pulse: glow-pulse 3s ease-in-out infinite;
+  --animate-float-slow: float-slow 8s ease-in-out infinite;
+  --animate-sparkle: sparkle 1.5s ease-in-out infinite;
+
+  /* Custom font */
+  --font-family-mystica: 'Cinzel', serif;
+
+  /* Border radius */
+  --radius-lg: 0.5rem;
+  --radius-md: calc(0.5rem - 2px);
+  --radius-sm: calc(0.5rem - 4px);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(2deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; box-shadow: 0 0 20px rgba(139, 92, 246, 0.5); }
+  50% { opacity: 0.8; box-shadow: 0 0 40px rgba(139, 92, 246, 0.8); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4), 0 0 40px rgba(251, 191, 36, 0.2);
+    filter: brightness(1);
+  }
+  50% { 
+    box-shadow: 0 0 30px rgba(139, 92, 246, 0.6), 0 0 60px rgba(251, 191, 36, 0.4);
+    filter: brightness(1.1);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes rotate-glow {
+  0% { transform: rotate(0deg); box-shadow: 0 0 20px rgba(251, 191, 36, 0.5); }
+  50% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.8); }
+  100% { transform: rotate(360deg); box-shadow: 0 0 20px rgba(251, 191, 36, 0.5); }
+}
+
+@layer base {
+  /* Light mode variables */
+  .light {
+    --background: 255 100% 98%;
+    --foreground: 240 35% 14%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 35% 14%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 35% 14%;
+    --primary: 271.5 81.3% 55.9%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 250 30% 96%;
+    --secondary-foreground: 240 35% 14%;
+    --muted: 250 30% 96%;
+    --muted-foreground: 240 20% 36%;
+    --accent: 270 60% 95%;
+    --accent-foreground: 271.5 81.3% 35%;
+    --destructive: 0 62.8% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 250 40% 90%;
+    --input: 250 40% 90%;
+    --ring: 271.5 81.3% 55.9%;
+    --radius: 0.5rem;
+  }
+
+  /* Dark mode variables (default) */
+  :root,
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 271.5 81.3% 55.9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 271.5 50% 20%;
+    --input: 271.5 50% 20%;
+    --ring: 271.5 81.3% 55.9%;
+    --radius: 0.5rem;
+  }
+
+  * {
+    border-color: hsl(var(--border));
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    touch-action: manipulation;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .safe-area-inset {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(271.5 50% 30%);
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: hsl(271.5 81.3% 55.9% / 0.3);
+    color: white;
+  }
+
+  @media (hover: none) {
+    button:active,
+    a:active {
+      opacity: 0.8;
+    }
+  }
+}
+
+@layer utilities {
+  .text-gradient-mystica {
+    background: linear-gradient(to right, #a78bfa, #fbbf24);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #fcd34d 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-purple-gold {
+    background: linear-gradient(135deg, #a78bfa 0%, #fbbf24 50%, #c4b5fd 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-mystica-gradient {
+    background: linear-gradient(135deg, hsl(271.5 81.3% 15%) 0%, hsl(271.5 50% 8%) 100%);
+  }
+
+  .bg-mystica-gradient-dark {
+    background: linear-gradient(180deg, hsl(271.5 50% 5%) 0%, hsl(271.5 80% 3%) 100%);
+  }
+
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  .glow-purple {
+    box-shadow: 0 0 20px hsl(271.5 81.3% 55.9% / 0.3);
+  }
+
+  .glow-gold {
+    box-shadow: 0 0 20px hsl(45 93% 47% / 0.3);
+  }
+
+  .glow-mystica {
+    box-shadow: 
+      0 0 10px rgba(139, 92, 246, 0.3),
+      0 0 20px rgba(139, 92, 246, 0.2),
+      0 0 40px rgba(251, 191, 36, 0.1);
+  }
+
+  .glow-mystica-intense {
+    box-shadow: 
+      0 0 15px rgba(139, 92, 246, 0.5),
+      0 0 30px rgba(139, 92, 246, 0.3),
+      0 0 60px rgba(251, 191, 36, 0.2);
+  }
+
+  .glow-card {
+    box-shadow: 
+      0 4px 20px rgba(0, 0, 0, 0.4),
+      0 0 40px rgba(139, 92, 246, 0.1);
+  }
+
+  .glow-card-hover {
+    box-shadow: 
+      0 8px 40px rgba(0, 0, 0, 0.5),
+      0 0 60px rgba(139, 92, 246, 0.3),
+      0 0 80px rgba(251, 191, 36, 0.15);
+  }
+
+  .font-runic {
+    font-family: 'Noto Sans Runic', serif;
+  }
+
+  .font-mystica {
+    font-family: 'Cinzel', serif;
+  }
+
+  /* NPC Card Styles */
+  .npc-card {
+    position: relative;
+    background: linear-gradient(145deg, rgba(26, 26, 46, 0.9) 0%, rgba(15, 15, 26, 0.95) 100%);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .npc-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.15) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .npc-card:hover::before {
+    opacity: 1;
+  }
+
+  .npc-card:hover {
+    border-color: rgba(251, 191, 36, 0.5);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.4),
+      0 0 40px rgba(139, 92, 246, 0.3),
+      0 0 80px rgba(251, 191, 36, 0.15);
+  }
+
+  /* Bottom Navigation */
+  .bottom-nav {
+    background: linear-gradient(180deg, 
+      rgba(15, 15, 26, 0.95) 0%, 
+      rgba(10, 10, 18, 0.98) 100%
+    );
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(139, 92, 246, 0.2);
+  }
+
+  .bottom-nav-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    color: rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+  }
+
+  .bottom-nav-item.active {
+    color: #fbbf24;
+  }
+
+  .bottom-nav-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #fbbf24;
+    box-shadow: 0 0 10px #fbbf24, 0 0 20px #fbbf24;
+  }
+
+  /* Tarot Card Flip */
+  .tarot-card-flip {
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .tarot-card-flip.flipped {
+    transform: rotateY(180deg);
+  }
+
+  /* Particle effect container */
+  .particles-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: rgba(251, 191, 36, 0.8);
+    animation: float-particle 4s ease-in-out infinite;
+  }
+
+  @keyframes float-particle {
+    0%, 100% {
+      transform: translateY(0) scale(1);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100px) scale(0);
+      opacity: 0;
+    }
+  }
+
+  /* Guide floating animation */
+  .guide-float {
+    animation: guide-float 6s ease-in-out infinite;
+  }
+
+  @keyframes guide-float {
+    0%, 100% {
+      transform: translateY(0) rotate(-2deg);
+    }
+    50% {
+      transform: translateY(-15px) rotate(2deg);
+    }
+  }
+
+  /* Magical shimmer effect */
+  .magic-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .magic-shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(251, 191, 36, 0.1) 50%,
+      transparent 100%
+    );
+    animation: shimmer-move 3s ease-in-out infinite;
+  }
+
+  @keyframes shimmer-move {
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 100%;
+    }
+  }
+
+  /* Premium badge glow */
+  .premium-glow {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    box-shadow: 
+      0 0 10px rgba(251, 191, 36, 0.5),
+      0 0 20px rgba(251, 191, 36, 0.3);
+  }
+
+  /* Card back pattern */
+  .card-back-pattern {
+    background: 
+      linear-gradient(45deg, rgba(139, 92, 246, 0.1) 25%, transparent 25%),
+      linear-gradient(-45deg, rgba(139, 92, 246, 0.1) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, rgba(139, 92, 246, 0.1) 75%),
+      linear-gradient(-45deg, transparent 75%, rgba(139, 92, 246, 0.1) 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  }
+}
+
+/* Light mode specific overrides */
+@layer components {
+  .light {
+    /* Adjust selection color for light mode */
+    ::selection {
+      background: hsl(271.5 81.3% 55.9% / 0.25);
+      color: hsl(240 35% 14%);
+    }
+  }
+
+  /* Light mode bottom navigation */
+  .light .bottom-nav {
+    background: linear-gradient(180deg, 
+      rgba(255, 255, 255, 0.98) 0%, 
+      rgba(248, 247, 255, 0.99) 100%
+    );
+    border-top: 1px solid rgba(139, 92, 246, 0.2);
+  }
+
+  .light .bottom-nav-item {
+    color: rgba(26, 26, 46, 0.5);
+  }
+
+  .light .bottom-nav-item.active {
+    color: #8b5cf6;
+  }
+
+  .light .bottom-nav-item.active::after {
+    background: #8b5cf6;
+    box-shadow: 0 0 10px #8b5cf6, 0 0 20px rgba(139, 92, 246, 0.5);
+  }
+
+  /* Light mode NPC card */
+  .light .npc-card {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 247, 255, 0.98) 100%);
+    border: 1px solid rgba(139, 92, 246, 0.25);
+  }
+
+  .light .npc-card::before {
+    background: radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.1) 0%, transparent 60%);
+  }
+
+  .light .npc-card:hover {
+    border-color: rgba(139, 92, 246, 0.5);
+    box-shadow: 
+      0 20px 40px rgba(139, 92, 246, 0.15),
+      0 0 40px rgba(139, 92, 246, 0.1);
+  }
+
+  /* Light mode glow effects */
+  .light .glow-purple {
+    box-shadow: 0 0 15px hsl(271.5 81.3% 55.9% / 0.25);
+  }
+
+  .light .glow-mystica {
+    box-shadow: 
+      0 0 10px rgba(139, 92, 246, 0.2),
+      0 0 20px rgba(139, 92, 246, 0.15),
+      0 0 40px rgba(251, 191, 36, 0.1);
+  }
+
+  .light .glow-card {
+    box-shadow: 
+      0 4px 20px rgba(139, 92, 246, 0.1),
+      0 0 40px rgba(139, 92, 246, 0.05);
+  }
+
+  .light .glow-card-hover {
+    box-shadow: 
+      0 8px 40px rgba(139, 92, 246, 0.15),
+      0 0 60px rgba(139, 92, 246, 0.1),
+      0 0 80px rgba(251, 191, 36, 0.05);
+  }
+
+  /* Light mode gradients */
+  .light .bg-mystica-gradient {
+    background: linear-gradient(135deg, hsl(270 60% 97%) 0%, hsl(255 100% 98%) 100%);
+  }
+
+  .light .bg-mystica-gradient-dark {
+    background: linear-gradient(180deg, hsl(255 100% 98%) 0%, hsl(270 60% 96%) 100%);
+  }
+
+  /* Light mode header background */
+  .light .header-bg {
+    background: rgba(248, 247, 255, 0.95);
+    border-bottom-color: rgba(139, 92, 246, 0.15);
+  }
+
+  /* Light mode scrollbar */
+  .light ::-webkit-scrollbar-thumb {
+    background: hsl(271.5 50% 70%);
+  }
+}

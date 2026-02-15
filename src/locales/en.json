@@ -1,0 +1,561 @@
+{
+  "navigation": {
+    "home": "Home",
+    "tarot": "Tarot",
+    "runes": "Runes",
+    "moon": "Moon",
+    "dreams": "Dreams",
+    "crystals": "Crystals",
+    "astrology": "Astrology",
+    "oracle": "Oracle",
+    "horoscope": "Horoscope",
+    "natalChart": "Natal Chart",
+    "affirmations": "Affirmations",
+    "compatibility": "Compatibility",
+    "numerology": "Numerology",
+    "rituals": "Rituals",
+    "meditations": "Meditations",
+    "profile": "Profile",
+    "settings": "Settings",
+    "premium": "Premium",
+    "admin": "Admin"
+  },
+  "common": {
+    "welcome": "Welcome",
+    "welcomeUser": "Welcome, {name}",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "accept": "Accept",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "start": "Start",
+    "finish": "Finish",
+    "seeAll": "See all",
+    "days": "days",
+    "minutes": "Minutes",
+    "sessions": "Sessions",
+    "streak": "Streak",
+    "achievements": "Achievements",
+    "allRightsReserved": "All rights reserved.",
+    "developedBy": "Developed with love by",
+    "sponsor": "Sponsor",
+    "acknowledgments": "Acknowledgments"
+  },
+  "home": {
+    "title": "MYSTICA",
+    "subtitle": "Your Portal to the Mystic World",
+    "chooseGuide": "Choose your Spiritual Guide",
+    "moreFeatures": "More Features",
+    "mysticProgress": "Your Mystic Progress",
+    "startReading": "Start Tarot Reading",
+    "goPremium": "Go Premium",
+    "quickMeditation": "Quick Meditation",
+    "idealFor": "Ideal for {time}",
+    "unlockedAchievements": "Achievements unlocked"
+  },
+  "guides": {
+    "hecate": {
+      "name": "Hecate",
+      "title": "Goddess of Magic",
+      "culture": "Greek",
+      "domain": "Tarot",
+      "description": "Guardian of crossroads and tarot"
+    },
+    "frigg": {
+      "name": "Frigg",
+      "title": "Mother of the Cosmos",
+      "culture": "Norse",
+      "domain": "Runes",
+      "description": "Goddess of wisdom and runes"
+    },
+    "selene": {
+      "name": "Selene",
+      "title": "Lady of the Moon",
+      "culture": "Greek",
+      "domain": "Moon",
+      "description": "Goddess of the Moon and its cycles"
+    },
+    "morpheus": {
+      "name": "Morpheus",
+      "title": "Lord of Dreams",
+      "culture": "Greek",
+      "domain": "Dreams",
+      "description": "God of dreams and visions"
+    },
+    "isis": {
+      "name": "Isis",
+      "title": "Mother of Magic",
+      "culture": "Egyptian",
+      "domain": "Crystals",
+      "description": "Goddess of magic and crystals"
+    },
+    "thoth": {
+      "name": "Thoth",
+      "title": "Scribe of the Gods",
+      "culture": "Egyptian",
+      "domain": "Astrology",
+      "description": "God of wisdom and astrology"
+    }
+  },
+  "features": {
+    "oracle": {
+      "title": "Oracle",
+      "description": "Messages from the universe"
+    },
+    "horoscope": {
+      "title": "Horoscope",
+      "description": "Daily predictions"
+    },
+    "natalChart": {
+      "title": "Natal Chart",
+      "description": "Your astral map"
+    },
+    "affirmations": {
+      "title": "Affirmations",
+      "description": "Powerful words"
+    },
+    "compatibility": {
+      "title": "Compatibility",
+      "description": "Zodiac connection"
+    },
+    "numerology": {
+      "title": "Numerology",
+      "description": "Power of numbers"
+    },
+    "rituals": {
+      "title": "Rituals",
+      "description": "Practical magic"
+    },
+    "meditations": {
+      "title": "Meditations",
+      "description": "Inner peace"
+    },
+    "cosmicProfile": {
+      "title": "Profile",
+      "description": "Your cosmic identity"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Customize your mystical experience",
+    "sound": {
+      "title": "Sounds",
+      "effects": "Sound effects",
+      "effectsDescription": "Magical sounds in the app",
+      "volume": "Volume",
+      "volumeDescription": "Sound intensity"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "reminders": "Meditation reminders",
+      "remindersDescription": "Receive notifications to meditate",
+      "activeReminders": "Active reminders",
+      "configureReminders": "Configure reminders",
+      "enabled": "Notifications enabled",
+      "disabled": "Notifications disabled",
+      "enableError": "Could not enable notifications"
+    },
+    "meditationStats": {
+      "title": "Meditation Statistics",
+      "clearHistory": "Clear history",
+      "clearHistoryConfirm": "Are you sure you want to delete all your meditation history? This action cannot be undone.",
+      "clearHistorySuccess": "Meditation history cleared"
+    },
+    "data": {
+      "title": "Data",
+      "export": "Export data",
+      "exportDescription": "Download a copy of your progress",
+      "exportSuccess": "Data exported successfully"
+    },
+    "account": {
+      "title": "Account",
+      "logout": "Log out",
+      "logoutSuccess": "Session closed"
+    },
+    "language": {
+      "title": "Language",
+      "select": "Select language",
+      "description": "Choose the application language"
+    },
+    "appInfo": {
+      "version": "Mystica v1.0.0"
+    }
+  },
+  "errors": {
+    "generic": "An error has occurred",
+    "notFound": "Not found",
+    "unauthorized": "Unauthorized",
+    "networkError": "Connection error",
+    "tryAgain": "Try again"
+  },
+  "success": {
+    "saved": "Saved successfully",
+    "deleted": "Deleted successfully",
+    "updated": "Updated successfully"
+  },
+  "meditation": {
+    "quickMeditation": {
+      "morning": {
+        "name": "Conscious Awakening",
+        "type": "morning"
+      },
+      "afternoon": {
+        "name": "Revitalizing Pause",
+        "type": "afternoon"
+      },
+      "evening": {
+        "name": "Descent to Sleep",
+        "type": "evening"
+      }
+    },
+    "categories": {
+      "chakras": {
+        "name": "Chakras",
+        "description": "Balance your energy centers"
+      },
+      "visualization": {
+        "name": "Visualization",
+        "description": "Transformative imaginary journeys"
+      },
+      "relaxation": {
+        "name": "Relaxation",
+        "description": "Release tension and stress"
+      },
+      "spiritual": {
+        "name": "Spiritual",
+        "description": "Connect with your divine essence"
+      },
+      "healing": {
+        "name": "Healing",
+        "description": "Restore your integral wellbeing"
+      },
+      "abundance": {
+        "name": "Abundance",
+        "description": "Attract prosperity and success"
+      },
+      "sleep": {
+        "name": "Sleep",
+        "description": "Conscious descent into sleep"
+      },
+      "anxiety": {
+        "name": "Anxiety",
+        "description": "Calm your restless mind"
+      },
+      "selfCompassion": {
+        "name": "Self-Compassion",
+        "description": "Love and accept your being"
+      },
+      "gratitude": {
+        "name": "Gratitude",
+        "description": "Cultivate thankfulness"
+      },
+      "forgiveness": {
+        "name": "Forgiveness",
+        "description": "Release the weight of resentment"
+      },
+      "manifestation": {
+        "name": "Manifestation",
+        "description": "Create your desired reality"
+      },
+      "concentration": {
+        "name": "Concentration",
+        "description": "Focus your mind"
+      },
+      "energy": {
+        "name": "Energy",
+        "description": "Vitalize your body and mind"
+      },
+      "protection": {
+        "name": "Protection",
+        "description": "Energetic and spiritual shield"
+      }
+    },
+    "levels": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
+    },
+    "timeToMeditate": "Time to Meditate"
+  },
+  "achievements": {
+    "firstBreath": {
+      "name": "First Breath",
+      "description": "Complete your first meditation"
+    },
+    "innerExplorer": {
+      "name": "Inner Explorer",
+      "description": "Complete 5 meditations"
+    },
+    "sereneSeeker": {
+      "name": "Serene Seeker",
+      "description": "Complete 10 meditations"
+    },
+    "dedicatedPractitioner": {
+      "name": "Dedicated Practitioner",
+      "description": "Complete 25 meditations"
+    },
+    "calmMaster": {
+      "name": "Master of Calm",
+      "description": "Complete 50 meditations"
+    },
+    "enlightened": {
+      "name": "Enlightened",
+      "description": "Complete 100 meditations"
+    },
+    "halfHourPeace": {
+      "name": "Half Hour of Peace",
+      "description": "Accumulate 30 minutes meditating"
+    },
+    "sacredHour": {
+      "name": "Sacred Hour",
+      "description": "Accumulate 1 hour meditating"
+    },
+    "halfDayZen": {
+      "name": "Half Day Zen",
+      "description": "Accumulate 3 hours meditating"
+    },
+    "innerJourney": {
+      "name": "Inner Journey",
+      "description": "Accumulate 6 hours meditating"
+    },
+    "timeMaster": {
+      "name": "Master of Time",
+      "description": "Accumulate 1000 minutes meditating"
+    },
+    "onThePath": {
+      "name": "On the Path",
+      "description": "Meditate 3 days in a row"
+    },
+    "mysticWeek": {
+      "name": "Mystic Week",
+      "description": "Meditate 7 days in a row"
+    },
+    "twoWeeksLight": {
+      "name": "Two Weeks of Light",
+      "description": "Meditate 14 days in a row"
+    },
+    "monthHarmony": {
+      "name": "Month of Harmony",
+      "description": "Meditate 30 days in a row"
+    },
+    "spiritualDiscipline": {
+      "name": "Spiritual Discipline",
+      "description": "Meditate 60 days in a row"
+    },
+    "centuryPeace": {
+      "name": "Century of Peace",
+      "description": "Meditate 100 days in a row"
+    },
+    "openMind": {
+      "name": "Open Mind",
+      "description": "Try 5 different meditations"
+    },
+    "techniqueExplorer": {
+      "name": "Technique Explorer",
+      "description": "Try 10 different meditations"
+    },
+    "peaceCollector": {
+      "name": "Peace Collector",
+      "description": "Try 20 different meditations"
+    }
+  },
+  "tarot": {
+    "title": "Tarot",
+    "reading": "Tarot Reading",
+    "selectCards": "Select your cards",
+    "revealCards": "Reveal cards",
+    "newReading": "New reading",
+    "majorArcana": "Major Arcana",
+    "minorArcana": "Minor Arcana",
+    "cards": {
+      "fool": {
+        "name": "The Fool",
+        "keywords": ["Beginnings", "Innocence", "Spontaneity", "Freedom", "Adventure"]
+      },
+      "magician": {
+        "name": "The Magician",
+        "keywords": ["Manifestation", "Power", "Action", "Creativity", "Skill"]
+      },
+      "highPriestess": {
+        "name": "The High Priestess",
+        "keywords": ["Intuition", "Mystery", "Inner wisdom", "The hidden", "Patience"]
+      },
+      "empress": {
+        "name": "The Empress",
+        "keywords": ["Fertility", "Abundance", "Nature", "Creativity", "Nurturing"]
+      },
+      "emperor": {
+        "name": "The Emperor",
+        "keywords": ["Authority", "Structure", "Control", "Father", "Foundations"]
+      },
+      "hierophant": {
+        "name": "The Hierophant",
+        "keywords": ["Spirituality", "Tradition", "Teaching", "Conformity", "Mentor"]
+      },
+      "lovers": {
+        "name": "The Lovers",
+        "keywords": ["Love", "Union", "Choice", "Harmony", "Relationships"]
+      },
+      "chariot": {
+        "name": "The Chariot",
+        "keywords": ["Victory", "Determination", "Control", "Journey", "Will"]
+      },
+      "justice": {
+        "name": "Justice",
+        "keywords": ["Justice", "Truth", "Balance", "Cause and effect", "Legality"]
+      },
+      "hermit": {
+        "name": "The Hermit",
+        "keywords": ["Introspection", "Solitude", "Inner guidance", "Wisdom", "Search"]
+      },
+      "wheelFortune": {
+        "name": "Wheel of Fortune",
+        "keywords": ["Change", "Cycles", "Destiny", "Opportunity", "Luck"]
+      },
+      "strength": {
+        "name": "Strength",
+        "keywords": ["Fortitude", "Courage", "Patience", "Inner control", "Compassion"]
+      },
+      "hangedMan": {
+        "name": "The Hanged Man",
+        "keywords": ["Sacrifice", "New perspective", "Pause", "Surrender", "Enlightenment"]
+      },
+      "death": {
+        "name": "Death",
+        "keywords": ["Transformation", "End", "Rebirth", "Profound change", "Liberation"]
+      },
+      "temperance": {
+        "name": "Temperance",
+        "keywords": ["Balance", "Patience", "Moderation", "Harmony", "Alchemy"]
+      },
+      "devil": {
+        "name": "The Devil",
+        "keywords": ["Bonds", "Materialism", "Addiction", "Temptation", "Shadow"]
+      },
+      "tower": {
+        "name": "The Tower",
+        "keywords": ["Catastrophe", "Revelation", "Sudden liberation", "Destruction", "Sudden change"]
+      },
+      "star": {
+        "name": "The Star",
+        "keywords": ["Hope", "Inspiration", "Healing", "Renewal", "Faith"]
+      },
+      "moon": {
+        "name": "The Moon",
+        "keywords": ["Illusion", "Intuition", "Fear", "Subconscious", "Dreams"]
+      },
+      "sun": {
+        "name": "The Sun",
+        "keywords": ["Happiness", "Success", "Vitality", "Joy", "Clarity"]
+      },
+      "judgement": {
+        "name": "Judgement",
+        "keywords": ["Rebirth", "Inner calling", "Absolution", "Awakening", "Transformation"]
+      },
+      "world": {
+        "name": "The World",
+        "keywords": ["Completion", "Integration", "Achievement", "Culmination", "Unity"]
+      }
+    },
+    "positions": {
+      "upright": "Upright",
+      "reversed": "Reversed"
+    }
+  },
+  "runes": {
+    "title": "Runes",
+    "reading": "Rune Reading",
+    "selectRune": "Select a rune",
+    "newReading": "New reading"
+  },
+  "moon": {
+    "title": "Lunar Calendar",
+    "phases": {
+      "newMoon": "New Moon",
+      "waxingCrescent": "Waxing Crescent",
+      "firstQuarter": "First Quarter",
+      "waxingGibbous": "Waxing Gibbous",
+      "fullMoon": "Full Moon",
+      "waningGibbous": "Waning Gibbous",
+      "lastQuarter": "Last Quarter",
+      "waningCrescent": "Waning Crescent"
+    }
+  },
+  "dreams": {
+    "title": "Dreams",
+    "journal": "Dream Journal",
+    "interpretation": "Interpretation",
+    "addDream": "Add dream",
+    "symbols": "Symbols"
+  },
+  "crystals": {
+    "title": "Crystals",
+    "guide": "Crystal Guide",
+    "properties": "Properties"
+  },
+  "astrology": {
+    "title": "Astrology",
+    "signs": {
+      "aries": "Aries",
+      "taurus": "Taurus",
+      "gemini": "Gemini",
+      "cancer": "Cancer",
+      "leo": "Leo",
+      "virgo": "Virgo",
+      "libra": "Libra",
+      "scorpio": "Scorpio",
+      "sagittarius": "Sagittarius",
+      "capricorn": "Capricorn",
+      "aquarius": "Aquarius",
+      "pisces": "Pisces"
+    },
+    "elements": {
+      "fire": "Fire",
+      "earth": "Earth",
+      "air": "Air",
+      "water": "Water"
+    }
+  },
+  "horoscope": {
+    "title": "Horoscope",
+    "daily": "Daily Horoscope",
+    "weekly": "Weekly Horoscope",
+    "monthly": "Monthly Horoscope",
+    "selectSign": "Select your sign"
+  },
+  "auth": {
+    "login": "Log in",
+    "logout": "Log out",
+    "register": "Sign up",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot your password?",
+    "myAccount": "My Account"
+  },
+  "premium": {
+    "title": "Premium",
+    "goPremium": "Go Premium",
+    "features": "Premium Features",
+    "subscribe": "Subscribe"
+  },
+  "admin": {
+    "title": "Admin Panel",
+    "dashboard": "Dashboard"
+  },
+  "profile": {
+    "title": "Cosmic Profile",
+    "yourIdentity": "Your cosmic identity"
+  },
+  "timeOfDay": {
+    "morning": "morning",
+    "afternoon": "afternoon",
+    "evening": "evening"
+  }
+}
