@@ -4,6 +4,7 @@ import './globals.css'
 import { MainNav } from '@/components/navigation/MainNav'
 import { Toaster } from '@/components/ui/sonner'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import { Analytics } from '@vercel/analytics/react'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { PWAProvider } from '@/components/PWAProvider'
 
@@ -168,6 +169,7 @@ export default function RootLayout({
             </main>
             <Toaster />
             <SpeedInsights />
+            <Analytics />
           </PWAProvider>
         </ThemeProvider>
       </body>
