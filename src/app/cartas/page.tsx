@@ -1,13 +1,19 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowLeft, Sparkles, Crown, Shield, RefreshCw, X, Volume2, VolumeX } from 'lucide-react'
+import Image from 'next/image'
+import { 
+  ArrowLeft, Sparkles, Crown, Shield, RefreshCw, 
+  Volume2, VolumeX, AlertCircle, Headphones
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { useAuth } from '@/hooks/useAuth'
+import { useTTS } from '@/hooks/useTTS'
+import { FloatingTTSButton, CompactTTSButton } from '@/components/TTSButton'
 import { cn } from '@/lib/utils'
 import { tarotCards, TarotCard } from '@/data/tarot-cards'
 import { TarotCard3D } from '@/components/tarot/TarotCard3D'
@@ -15,14 +21,51 @@ import { ParticleField } from '@/components/effects/ParticleField'
 import { MysticalGlow } from '@/components/effects/MysticalGlow'
 import { FloatingOrbs } from '@/components/effects/FloatingOrbs'
 import { PageTransition } from '@/components/transitions/PageTransition'
-import Image from 'next/image'
+import { 
+  TarotReadingResult, 
+  TarotCardData, 
+  TarotInterpretation 
+} from '@/components/TarotReadingResult'
 import '@/styles/animations.css'
+
+// Mapping of card names to image files
+const cardImageMap: Record<string, string> = {
+  'El Loco': '/tarot-cards/00-fool.png',
+  'El Mago': '/tarot-cards/01-magician.png',
+  'La Sacerdotisa': '/tarot-cards/02-high-priestess.png',
+  'La Emperatriz': '/tarot-cards/03-empress.png',
+  'El Emperador': '/tarot-cards/04-emperor.png',
+  'El Sumo Sacerdote': '/tarot-cards/05-hierophant.png',
+  'Los Enamorados': '/tarot-cards/06-lovers.png',
+  'El Carro': '/tarot-cards/07-chariot.png',
+  'La Justicia': '/tarot-cards/08-justice.png',
+  'El Ermitaño': '/tarot-cards/09-hermit.png',
+  'La Rueda de la Fortuna': '/tarot-cards/10-wheel.png',
+  'La Fuerza': '/tarot-cards/11-strength.png',
+  'El Colgado': '/tarot-cards/12-hanged-man.png',
+  'La Muerte': '/tarot-cards/13-death.png',
+  'La Templanza': '/tarot-cards/14-temperance.png',
+  'El Diablo': '/tarot-cards/15-devil.png',
+  'La Torre': '/tarot-cards/16-tower.png',
+  'La Estrella': '/tarot-cards/17-star.png',
+  'La Luna': '/tarot-cards/18-moon.png',
+  'El Sol': '/tarot-cards/19-sun.png',
+  'El Juicio': '/tarot-cards/20-judgment.png',
+  'El Mundo': '/tarot-cards/21-world.png',
+}
+
+interface SelectedCard extends TarotCard {
+  isReversed: boolean
+}
 
 export default function TarotPage() {
   const { isAdmin, isPremium } = useAuth()
   const canAccessPremium = isAdmin || isPremium
   
-  const [selectedCards, setSelectedCards] = useState<TarotCard[]>([])
+  // TTS Hook
+  const tts = useTTS()
+  
+  const [selectedCards, setSelectedCards] = useState<SelectedCard[]>([])
   const [revealedCards, setRevealedCards] = useState<number[]>([])
   const [isDrawing, setIsDrawing] = useState(false)
   const [showGuide, setShowGuide] = useState(true)
@@ -31,8 +74,12 @@ export default function TarotPage() {
   const [cooldownHours, setCooldownHours] = useState(0)
   const [guideText, setGuideText] = useState('')
   const [isTyping, setIsTyping] = useState(false)
-  const [speaking, setSpeaking] = useState(false)
   const [cardParticles, setCardParticles] = useState<{id: number, x: number, y: number}[]>([])
+  
+  // Interpretation state
+  const [interpretation, setInterpretation] = useState<TarotInterpretation | null>(null)
+  const [isLoadingInterpretation, setIsLoadingInterpretation] = useState(false)
+  const [interpretationError, setInterpretationError] = useState<string | null>(null)
 
   const maxCards = canAccessPremium ? 5 : 3
 
@@ -42,7 +89,7 @@ export default function TarotPage() {
   const hecateQuestions = [
     'Que camino te resulta dificil ver en este momento?',
     'Que verdad temes enfrentar?',
-    'Que puerta estas lista para abrir?'
+    'Que puerta estas listo para abrir?'
   ]
 
   const hecateRevealMessages = [
@@ -83,18 +130,123 @@ export default function TarotPage() {
     }
   }, [canAccessPremium])
 
-  const speak = (text: string) => {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel()
-      const utterance = new SpeechSynthesisUtterance(text)
-      utterance.lang = 'es-ES'
-      utterance.rate = 0.9
-      utterance.pitch = 0.8
-      utterance.onstart = () => setSpeaking(true)
-      utterance.onend = () => setSpeaking(false)
-      window.speechSynthesis.speak(utterance)
+  // Fetch interpretation when all cards are revealed
+  const fetchInterpretation = useCallback(async () => {
+    if (revealedCards.length !== selectedCards.length || selectedCards.length === 0) return
+    
+    setIsLoadingInterpretation(true)
+    setInterpretationError(null)
+    
+    try {
+      const cardsData: TarotCardData[] = selectedCards.map(card => ({
+        id: card.id,
+        name: card.name,
+        numeral: card.numeral,
+        keywords: card.keywords,
+        upright: card.upright,
+        reversed: card.reversed,
+        isReversed: card.isReversed
+      }))
+
+      const spreadType = selectedCards.length === 1 ? 'single' 
+        : selectedCards.length === 3 ? 'three-card'
+        : 'five-card'
+
+      const response = await fetch('/api/tarot/interpret', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          cards: cardsData,
+          userQuestion: selectedQuestion,
+          spreadType
+        })
+      })
+
+      if (!response.ok) {
+        throw new Error('Error al obtener la interpretacion')
+      }
+
+      const data = await response.json()
+      setInterpretation(data.interpretation)
+    } catch (error) {
+      console.error('Error fetching interpretation:', error)
+      setInterpretationError('No se pudo obtener la interpretacion. Por favor, intenta de nuevo.')
+    } finally {
+      setIsLoadingInterpretation(false)
     }
-  }
+  }, [revealedCards.length, selectedCards, selectedQuestion])
+
+  useEffect(() => {
+    if (revealedCards.length === selectedCards.length && selectedCards.length > 0) {
+      fetchInterpretation()
+    }
+  }, [revealedCards.length, selectedCards.length, fetchInterpretation])
+
+  // Speak guide text using TTS
+  const speakGuide = useCallback((text: string) => {
+    if (tts.isSpeaking) {
+      tts.stop()
+    } else {
+      tts.speak(text, { rate: 0.9 })
+    }
+  }, [tts])
+
+  // Generate reading text for TTS
+  const readingText = useMemo(() => {
+    if (revealedCards.length === 0 || selectedCards.length === 0) return ''
+    
+    const revealedCardsList = selectedCards.filter((_, i) => revealedCards.includes(i))
+    return tts.formatTarotReading(revealedCardsList.map(card => ({
+      name: card.name,
+      numeral: card.numeral,
+      upright: card.isReversed ? card.reversed : card.upright,
+      keywords: card.keywords,
+      isReversed: card.isReversed
+    })))
+  }, [revealedCards, selectedCards, tts])
+
+  // Generate interpretation text for TTS
+  const interpretationText = useMemo(() => {
+    if (!interpretation) return ''
+    
+    let text = `Tu lectura de tarot revela lo siguiente. `
+    
+    if (interpretation.overview) {
+      text += `Visión general: ${interpretation.overview}. `
+    }
+    
+    if (interpretation.cards && interpretation.cards.length > 0) {
+      interpretation.cards.forEach((cardInterp: any, index: number) => {
+        const card = selectedCards[index]
+        if (card) {
+          text += `${card.name}: ${cardInterp.meaning || cardInterp.interpretation || ''}. `
+        }
+      })
+    }
+    
+    if (interpretation.advice) {
+      text += `Consejo: ${interpretation.advice}. `
+    }
+    
+    if (interpretation.summary) {
+      text += interpretation.summary
+    }
+    
+    return text
+  }, [interpretation, selectedCards])
+
+  // Speak full reading or interpretation
+  const speakReading = useCallback(() => {
+    if (tts.isSpeaking) {
+      tts.stop()
+      return
+    }
+    
+    const textToSpeak = interpretationText || readingText
+    if (textToSpeak) {
+      tts.speak(textToSpeak, { rate: 0.85 })
+    }
+  }, [tts, interpretationText, readingText])
 
   // Spawn particles on card reveal
   const spawnParticles = (index: number) => {
@@ -113,10 +265,15 @@ export default function TarotPage() {
     setIsDrawing(true)
     setSelectedCards([])
     setRevealedCards([])
+    setInterpretation(null)
+    setInterpretationError(null)
     
     setTimeout(() => {
       const shuffled = [...tarotCards].sort(() => Math.random() - 0.5)
-      const drawn = shuffled.slice(0, maxCards)
+      const drawn = shuffled.slice(0, maxCards).map(card => ({
+        ...card,
+        isReversed: Math.random() > 0.7 // 30% chance of being reversed
+      }))
       setSelectedCards(drawn)
       setIsDrawing(false)
       setShowGuide(false)
@@ -145,12 +302,22 @@ export default function TarotPage() {
     setRevealedCards([])
     setSelectedQuestion(null)
     setShowGuide(true)
+    setInterpretation(null)
+    setInterpretationError(null)
+    setGuideText('')
   }
 
   const handleQuestionSelect = (question: string) => {
     setSelectedQuestion(question)
     setShowGuide(false)
   }
+
+  const getCardImage = (cardName: string) => {
+    return cardImageMap[cardName] || '/tarot-cards/00-fool.png'
+  }
+
+  // Show interpretation when all cards are revealed
+  const showInterpretation = revealedCards.length === selectedCards.length && selectedCards.length > 0
 
   return (
     <PageTransition variant="fade">
@@ -273,8 +440,8 @@ export default function TarotPage() {
                   </div>
                 </div>
 
-                {/* Guide Dialogue */}
-                {(showGuide || revealedCards.length === selectedCards.length) && (
+                {/* Guide Dialogue - only show when not showing interpretation */}
+                {!showInterpretation && (showGuide || revealedCards.length === selectedCards.length) && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -296,10 +463,10 @@ export default function TarotPage() {
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => speaking ? window.speechSynthesis.cancel() : speak(guideText)}
+                      onClick={() => speakGuide(guideText)}
                       className="absolute top-2 right-2 text-mystica-purple-300 hover:text-white p-1 h-auto"
                     >
-                      {speaking ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                      {tts.isSpeaking ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                     </Button>
                   </motion.div>
                 )}
@@ -393,9 +560,9 @@ export default function TarotPage() {
                 </div>
               )}
 
-              {/* Cards Display */}
+              {/* Cards Display - only show when not all revealed or no interpretation yet */}
               <AnimatePresence>
-                {selectedCards.length > 0 && (
+                {selectedCards.length > 0 && !showInterpretation && (
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -435,7 +602,7 @@ export default function TarotPage() {
                               
                               <TarotCard3D
                                 card={card}
-                                isReversed={Math.random() > 0.7}
+                                isReversed={card.isReversed}
                                 isFlipped={isRevealed}
                                 onFlip={() => flipCard(index)}
                               />
@@ -449,19 +616,20 @@ export default function TarotPage() {
                       <p className="text-gray-400 mb-4 text-sm">
                         {revealedCards.length} de {selectedCards.length} cartas reveladas
                       </p>
-                      {revealedCards.length === selectedCards.length && (
+                      {revealedCards.length === selectedCards.length && isLoadingInterpretation && (
                         <motion.div
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
+                          className="text-mystica-purple-200"
                         >
-                          <Button
-                            onClick={resetReading}
-                            variant="outline"
-                            className="border-mystica-purple-600/50 text-mystica-purple-300 hover:bg-mystica-purple-900/30"
+                          <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+                            className="inline-block mb-2"
                           >
-                            <RefreshCw className="w-4 h-4 mr-2" />
-                            Nueva Lectura
-                          </Button>
+                            <Sparkles className="w-6 h-6 text-mystica-gold-400" />
+                          </motion.div>
+                          <p className="text-sm">Hecate esta interpretando las cartas...</p>
                         </motion.div>
                       )}
                     </div>
@@ -469,15 +637,51 @@ export default function TarotPage() {
                 )}
               </AnimatePresence>
 
-              {/* Card Meanings */}
-              {revealedCards.length > 0 && (
+              {/* Interpretation Result */}
+              <AnimatePresence>
+                {showInterpretation && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -30 }}
+                  >
+                    {interpretationError && (
+                      <Card className="bg-red-900/20 border-red-500/30 mb-4">
+                        <CardContent className="p-4 flex items-center gap-3">
+                          <AlertCircle className="w-5 h-5 text-red-400" />
+                          <p className="text-red-200">{interpretationError}</p>
+                        </CardContent>
+                      </Card>
+                    )}
+                    
+                    <TarotReadingResult
+                      cards={selectedCards.map(card => ({
+                        id: card.id,
+                        name: card.name,
+                        numeral: card.numeral,
+                        keywords: card.keywords,
+                        upright: card.upright,
+                        reversed: card.reversed,
+                        isReversed: card.isReversed
+                      }))}
+                      interpretation={interpretation}
+                      userQuestion={selectedQuestion}
+                      isLoading={isLoadingInterpretation}
+                      onNewReading={resetReading}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Card Meanings - Simple view before all revealed */}
+              {revealedCards.length > 0 && !showInterpretation && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   className="space-y-3"
                 >
                   <h2 className="text-lg font-bold text-white mb-4 font-mystica">
-                    Interpretacion de las Cartas
+                    Cartas Reveladas
                   </h2>
                   {selectedCards.filter((_, i) => revealedCards.includes(i)).map((card, index) => (
                     <motion.div
@@ -491,14 +695,19 @@ export default function TarotPage() {
                           <div className="flex gap-4">
                             {/* Mini card image */}
                             <motion.div 
-                              className="relative w-16 h-24 flex-shrink-0 rounded-lg overflow-hidden border border-mystica-gold-500/30"
+                              className={cn(
+                                "relative w-16 h-24 flex-shrink-0 rounded-lg overflow-hidden border",
+                                card.isReversed 
+                                  ? "border-red-500/30" 
+                                  : "border-mystica-gold-500/30"
+                              )}
                               whileHover={{ scale: 1.05, rotate: 2 }}
                             >
                               <Image
-                                src={`/tarot-cards/${card.id.toString().padStart(2, '0')}-${card.name.toLowerCase().replace(/el |la |los |la /g, '').replace(/ /g, '-')}.png`}
+                                src={getCardImage(card.name)}
                                 alt={card.name}
                                 fill
-                                className="object-cover"
+                                className={cn("object-cover", card.isReversed && "rotate-180")}
                                 onError={(e) => {
                                   const target = e.target as HTMLImageElement
                                   target.src = '/tarot-cards/00-fool.png'
@@ -515,6 +724,11 @@ export default function TarotPage() {
                                   {card.numeral}
                                 </motion.span>
                                 <h3 className="text-white font-bold">{card.name}</h3>
+                                {card.isReversed && (
+                                  <span className="text-xs px-2 py-0.5 rounded bg-red-900/50 text-red-300">
+                                    Invertida
+                                  </span>
+                                )}
                               </div>
                               <div className="flex flex-wrap gap-1 mb-2">
                                 {card.keywords.slice(0, 4).map((keyword, i) => (
@@ -530,7 +744,7 @@ export default function TarotPage() {
                                 ))}
                               </div>
                               <p className="text-gray-300 text-sm leading-relaxed">
-                                {card.upright}
+                                {card.isReversed ? card.reversed : card.upright}
                               </p>
                             </div>
                           </div>
@@ -543,6 +757,16 @@ export default function TarotPage() {
             </div>
           </div>
         </main>
+
+        {/* Floating TTS Button for reading */}
+        {(readingText || interpretationText) && (
+          <FloatingTTSButton
+            text={interpretationText || readingText}
+            position="bottom-right"
+            showControls={true}
+            speedPreset="reading"
+          />
+        )}
       </div>
     </PageTransition>
   )

@@ -2,37 +2,27 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowLeft, Heart, Star, Sparkles, Crown, Github, Moon, ExternalLink, Check, Zap } from 'lucide-react'
+import { ArrowLeft, Heart, Star, Sparkles, Crown, Github, ExternalLink, Check, Zap, Coffee, Gift } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 
-// Z-AI como patrocinadora oficial
-const sponsors = [
-  {
-    name: 'Z-AI',
-    role: 'Patrocinadora Tecnológica & Primera Inversora',
-    amount: '3,000€',
-    logo: '🤖',
-    tier: 'gold',
-    contribution: [
-      'Desarrollo técnico completo',
-      'Integración IA avanzada',
-      'Infraestructura cloud',
-      'Soporte 24/7',
-      'Optimización PWA móvil'
-    ],
-    website: 'Z-AI Technologies',
-    quote: 'Creemos en Mystica como el futuro de las apps de espiritualidad. Nuestra inversión refleja la confianza en este proyecto revolucionario.'
-  }
+const fundingGoals = [
+  { name: 'Apple Developer', cost: '99 EUR/año', status: 'pending', icon: '🍎' },
+  { name: 'Google Play Developer', cost: '25 EUR', status: 'pending', icon: '▶️' },
+  { name: 'Dominio .app', cost: '15 EUR/año', status: 'pending', icon: '🌐' },
+  { name: 'Email corporativo', cost: '60 EUR/año', status: 'pending', icon: '📧' },
+  { name: 'Servidor VPS', cost: '120 EUR/año', status: 'pending', icon: '🖥️' },
+  { name: 'SSL Certificado', cost: 'Gratis', status: 'available', icon: '🔒' },
 ]
 
-const fundingGoals = [
-  { name: 'Apple Developer', cost: '99€/año', status: 'pending', icon: '🍎' },
-  { name: 'Google Play Developer', cost: '25€', status: 'pending', icon: '▶️' },
-  { name: 'Dominio .com', cost: '15€/año', status: 'pending', icon: '🌐' },
-  { name: 'Email corporativo', cost: '60€/año', status: 'pending', icon: '📧' },
-  { name: 'Stripe/Pasarela pago', cost: 'Variable', status: 'pending', icon: '💳' },
-  { name: 'SSL Certificado', cost: 'Gratis*', status: 'available', icon: '🔒' },
+const teamMembers = [
+  {
+    name: 'Yrys',
+    role: 'Creadora & Desarrolladora',
+    avatar: '🔮',
+    social: 'https://github.com/elkalivpn',
+    username: '@elkalivpn'
+  }
 ]
 
 export default function AgradecimientosPage() {
@@ -48,7 +38,7 @@ export default function AgradecimientosPage() {
             </Link>
             <div>
               <h1 className="text-2xl font-bold bg-gradient-to-r from-mystica-purple-400 to-mystica-gold-400 bg-clip-text text-transparent">
-                Agradecimientos & Patrocinadores
+                Agradecimientos
               </h1>
               <p className="text-sm text-gray-400">Gracias por hacer esto posible</p>
             </div>
@@ -58,56 +48,44 @@ export default function AgradecimientosPage() {
 
       <main className="max-w-5xl mx-auto px-4 py-8">
         
-        {/* SPONSOR PRINCIPAL - Z-AI */}
+        {/* DONACIONES */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-12"
         >
           <div className="text-center mb-6">
-            <Crown className="w-8 h-8 text-yellow-400 mx-auto mb-2" />
-            <h2 className="text-2xl font-bold text-white">Patrocinador Principal</h2>
-            <p className="text-gray-400">Primera inversora oficial de Mystica</p>
+            <Heart className="w-10 h-10 text-pink-400 mx-auto mb-3" />
+            <h2 className="text-2xl font-bold text-white">Apoya el Proyecto</h2>
+            <p className="text-gray-400 mt-2">Ayuda a que Mystica siga creciendo</p>
           </div>
 
-          <Card className="bg-gradient-to-br from-yellow-900/20 via-mystica-purple-900/30 to-mystica-dark-200 border-yellow-500/40 overflow-hidden">
-            <CardContent className="p-8">
-              <div className="flex flex-col md:flex-row items-center gap-8">
-                {/* Logo */}
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-yellow-500 to-purple-500 rounded-full blur-2xl opacity-40" />
-                  <div className="relative w-32 h-32 rounded-full bg-gradient-to-br from-purple-600 to-yellow-500 flex items-center justify-center">
-                    <span className="text-5xl">🤖</span>
-                  </div>
-                  <div className="absolute -bottom-2 -right-2 bg-yellow-500 text-black font-bold px-3 py-1 rounded-full text-sm">
-                    3,000€
-                  </div>
-                </div>
-
-                {/* Info */}
-                <div className="flex-1 text-center md:text-left">
-                  <div className="flex items-center justify-center md:justify-start gap-3 mb-2">
-                    <h3 className="text-3xl font-bold text-white">Z-AI</h3>
-                    <span className="px-3 py-1 rounded-full bg-yellow-500/20 text-yellow-400 text-xs font-medium border border-yellow-500/30">
-                      GOLD SPONSOR
-                    </span>
-                  </div>
-                  <p className="text-mystica-gold-400 font-medium mb-4">Patrocinadora Tecnológica & Primera Inversora</p>
-                  
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-4">
-                    {sponsors[0].contribution.map((item, i) => (
-                      <div key={i} className="flex items-center gap-2 text-sm text-gray-300">
-                        <Check className="w-4 h-4 text-green-400" />
-                        <span>{item}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <p className="text-gray-400 text-sm italic max-w-lg">
-                    "{sponsors[0].quote}"
-                  </p>
-                </div>
-              </div>
+          <Card className="bg-gradient-to-br from-pink-900/30 via-purple-900/20 to-mystica-dark-200 border-pink-500/40 overflow-hidden">
+            <CardContent className="p-8 text-center">
+              <Gift className="w-16 h-16 text-pink-400 mx-auto mb-4" />
+              <h3 className="text-xl font-bold text-white mb-2">Hacer una Donacion</h3>
+              <p className="text-gray-300 mb-6 max-w-md mx-auto">
+                Tu aportacion ayuda a cubrir los costes de desarrollo, servidores y nuevas funcionalidades.
+                Cada contribucion, por pequena que sea, marca la diferencia.
+              </p>
+              
+              <a 
+                href="https://www.paypal.com/donate/?hosted_button_id=JRTW5XP38JDUC"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button 
+                  size="lg"
+                  className="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-400 hover:to-purple-400 text-white px-8 py-6 text-lg"
+                >
+                  <Heart className="w-5 h-5 mr-2" />
+                  Donar con PayPal
+                </Button>
+              </a>
+              
+              <p className="text-gray-500 text-sm mt-4">
+                Se redirigira a PayPal para completar la donacion de forma segura.
+              </p>
             </CardContent>
           </Card>
         </motion.div>
@@ -120,7 +98,7 @@ export default function AgradecimientosPage() {
           className="mb-12"
         >
           <h2 className="text-xl font-bold text-white mb-4 text-center">
-            💰 Uso del Capital
+            Fondos Necesarios
           </h2>
           <Card className="bg-mystica-dark-100/50 border-gray-700">
             <CardContent className="p-6">
@@ -144,18 +122,12 @@ export default function AgradecimientosPage() {
               </div>
 
               <div className="mt-6 p-4 rounded-lg bg-mystica-purple-900/30 border border-mystica-purple-500/30">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-gray-300">Capital recibido</span>
-                  <span className="text-green-400 font-bold">3,000€</span>
-                </div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-gray-300">Gastos estimados (año 1)</span>
-                  <span className="text-orange-400 font-bold">~500€</span>
-                </div>
-                <div className="border-t border-gray-700 my-2" />
-                <div className="flex items-center justify-between">
-                  <span className="text-white font-medium">Disponible para marketing/crecimiento</span>
-                  <span className="text-mystica-gold-400 font-bold">2,500€</span>
+                <div className="text-center">
+                  <p className="text-gray-300 mb-2">Coste estimado anual</p>
+                  <p className="text-3xl font-bold text-mystica-gold-400">~300 EUR</p>
+                  <p className="text-gray-500 text-sm mt-2">
+                    Sin incluir marketing, publicidad ni desarrollos adicionales
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -168,33 +140,41 @@ export default function AgradecimientosPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <Card className="bg-gradient-to-br from-mystica-purple-900/30 to-mystica-dark-200 border-mystica-purple-500/30 mb-8 overflow-hidden">
-            <CardContent className="p-8 text-center">
-              <div className="relative w-24 h-24 mx-auto mb-4">
-                <div className="absolute inset-0 bg-gradient-to-r from-mystica-purple-500 to-mystica-gold-500 rounded-full blur-xl opacity-50" />
-                <div className="relative w-24 h-24 rounded-full bg-gradient-to-br from-mystica-purple-600 to-mystica-purple-800 flex items-center justify-center">
-                  <span className="text-3xl">🔮</span>
+          <div className="text-center mb-6">
+            <Crown className="w-8 h-8 text-yellow-400 mx-auto mb-2" />
+            <h2 className="text-xl font-bold text-white">Creadora</h2>
+          </div>
+          
+          {teamMembers.map((member, i) => (
+            <Card key={i} className="bg-gradient-to-br from-mystica-purple-900/30 to-mystica-dark-200 border-mystica-purple-500/30 mb-8 overflow-hidden">
+              <CardContent className="p-8 text-center">
+                <div className="relative w-24 h-24 mx-auto mb-4">
+                  <div className="absolute inset-0 bg-gradient-to-r from-mystica-purple-500 to-mystica-gold-500 rounded-full blur-xl opacity-50" />
+                  <div className="relative w-24 h-24 rounded-full bg-gradient-to-br from-mystica-purple-600 to-mystica-purple-800 flex items-center justify-center">
+                    <span className="text-3xl">{member.avatar}</span>
+                  </div>
                 </div>
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-2">Yrys</h3>
-              <p className="text-mystica-gold-400 font-medium mb-4">Desarrolladora & Creadora</p>
-              <p className="text-gray-300 mb-6 max-w-md mx-auto">
-                "Mystica nació de la pasión por el misticismo y la tecnología. Gracias a Z-AI como primera inversora, podemos llevar esta visión a millones de personas."
-              </p>
-              <a 
-                href="https://github.com/elkalivpn" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-mystica-purple-300 hover:text-mystica-purple-200 transition-colors"
-              >
-                <Github className="w-5 h-5" />
-                @elkalivpn
-              </a>
-            </CardContent>
-          </Card>
+                <h3 className="text-2xl font-bold text-white mb-2">{member.name}</h3>
+                <p className="text-mystica-gold-400 font-medium mb-4">{member.role}</p>
+                <p className="text-gray-300 mb-6 max-w-md mx-auto">
+                  "Mystica nacio de la pasion por el misticismo y la tecnologia. 
+                  Mi objetivo es crear herramientas espirituales accesibles para todos."
+                </p>
+                <a 
+                  href={member.social} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-mystica-purple-300 hover:text-mystica-purple-200 transition-colors"
+                >
+                  <Github className="w-5 h-5" />
+                  {member.username}
+                </a>
+              </CardContent>
+            </Card>
+          ))}
         </motion.div>
 
-        {/* OTROS AGRADECIMIENTOS */}
+        {/* AGRADECIMIENTOS */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -205,8 +185,8 @@ export default function AgradecimientosPage() {
             {[
               { icon: '⭐', title: 'Comunidad Mystica', desc: 'Por cada sugerencia y feedback' },
               { icon: '🌙', title: 'Luna y Estrellas', desc: 'Por guiar nuestros caminos' },
-              { icon: '🔮', title: 'Sabiduría Ancestral', desc: 'Por preservar el conocimiento' },
-              { icon: '💜', title: 'Usuarios Premium', desc: 'Por creer en el proyecto' },
+              { icon: '🔮', title: 'Sabiduria Ancestral', desc: 'Por preservar el conocimiento' },
+              { icon: '💜', title: 'Usuarios', desc: 'Por usar y compartir Mystica' },
             ].map((item, i) => (
               <Card key={i} className="bg-mystica-dark-100/50 border-gray-700">
                 <CardContent className="p-4 flex items-center gap-4">
@@ -221,32 +201,26 @@ export default function AgradecimientosPage() {
           </div>
         </motion.div>
 
-        {/* INVERTIR */}
+        {/* VOLVERSE PREMIUM */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
           className="mt-12"
         >
-          <Card className="bg-gradient-to-br from-green-900/20 to-emerald-900/10 border-green-500/30">
+          <Card className="bg-gradient-to-br from-yellow-900/20 to-orange-900/10 border-yellow-500/30">
             <CardContent className="p-8 text-center">
-              <Zap className="w-12 h-12 text-green-400 mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-white mb-2">¿Quieres invertir en Mystica?</h3>
+              <Crown className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
+              <h3 className="text-xl font-bold text-white mb-2">Hazte Premium</h3>
               <p className="text-gray-300 mb-6">
-                Únete a Z-AI como inversor y sé parte del futuro de las apps de espiritualidad.
+                Accede a todas las funcionalidades y apoya el desarrollo continuo.
               </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Link href="/premium">
-                  <Button className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400">
-                    <Heart className="w-4 h-4 mr-2" />
-                    Hacerse Premium
-                  </Button>
-                </Link>
-                <Button variant="outline" className="border-green-500/50 text-green-400">
-                  <ExternalLink className="w-4 h-4 mr-2" />
-                  Contactar Equipo
+              <Link href="/premium">
+                <Button className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-black">
+                  <Crown className="w-4 h-4 mr-2" />
+                  Ver Planes Premium
                 </Button>
-              </div>
+              </Link>
             </CardContent>
           </Card>
         </motion.div>
@@ -262,7 +236,7 @@ export default function AgradecimientosPage() {
             <CardContent className="p-6">
               <Sparkles className="w-6 h-6 text-mystica-gold-400 mx-auto mb-4" />
               <p className="text-mystica-purple-200 italic text-lg">
-                "El universo conspira a favor de quienes sueñan despiertos."
+                "El universo conspira a favor de quienes suenan despiertos."
               </p>
               <p className="text-gray-500 text-sm mt-2">— Equipo Mystica, 2024</p>
             </CardContent>

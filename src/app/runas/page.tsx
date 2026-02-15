@@ -1,19 +1,23 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowLeft, Star, Crown, Shield, Sparkles, RefreshCw } from 'lucide-react'
+import { ArrowLeft, Star, Crown, Shield, Sparkles, RefreshCw, Volume2, VolumeX, Headphones } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { useAuth } from '@/hooks/useAuth'
+import { useTTS } from '@/hooks/useTTS'
+import { FloatingTTSButton, CompactTTSButton } from '@/components/TTSButton'
 import { runes, Rune } from '@/data/runes'
 import { NPC3DGuide } from '@/components/NPC3DGuide'
 import { cn } from '@/lib/utils'
 
 export default function RunesPage() {
   const { isAdmin, isPremium } = useAuth()
+  const tts = useTTS()
+  
   const [selectedRunes, setSelectedRunes] = useState<Rune[]>([])
   const [revealedRunes, setRevealedRunes] = useState<number[]>([])
   const [isDrawing, setIsDrawing] = useState(false)
@@ -64,7 +68,40 @@ export default function RunesPage() {
     setRevealedRunes([])
     setShowGuide(true)
     setGuideDialogue('')
+    tts.stop()
   }
+
+  // Generate reading text for TTS
+  const readingText = useMemo(() => {
+    if (revealedRunes.length === 0 || selectedRunes.length === 0) return ''
+    
+    const revealedRunesList = selectedRunes.filter((_, i) => revealedRunes.includes(i))
+    return tts.formatRuneReading(revealedRunesList.map(rune => ({
+      name: rune.name,
+      symbol: rune.symbol,
+      meaning: rune.meaning,
+      upright: rune.upright,
+      keywords: rune.keywords
+    })))
+  }, [revealedRunes, selectedRunes, tts])
+
+  // Speak guide or reading
+  const speakGuide = useCallback((text: string) => {
+    if (tts.isSpeaking) {
+      tts.stop()
+    } else {
+      tts.speak(text, { rate: 0.9 })
+    }
+  }, [tts])
+
+  // Speak full reading
+  const speakReading = useCallback(() => {
+    if (tts.isSpeaking) {
+      tts.stop()
+    } else if (readingText) {
+      tts.speak(readingText, { rate: 0.85 })
+    }
+  }, [tts, readingText])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-mystica-dark-300 via-blue-950/20 to-mystica-dark-100">
@@ -278,6 +315,16 @@ export default function RunesPage() {
           </div>
         </div>
       </main>
+
+      {/* Floating TTS Button for reading */}
+      {readingText && (
+        <FloatingTTSButton
+          text={readingText}
+          position="bottom-right"
+          showControls={true}
+          speedPreset="reading"
+        />
+      )}
     </div>
   )
 }

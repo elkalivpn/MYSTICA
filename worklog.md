@@ -461,3 +461,176 @@ Se implemento un sistema completo de pagos con Stripe con las siguientes caracte
 - Claves API desde variables de entorno (no hardcodeadas)
 - Validacion de usuario en cada endpoint
 - Manejo de errores con mensajes descriptivos
+
+---
+## Task ID: 8 - tarot-interpretation
+### Work Task
+Mejorar el sistema de lectura de Tarot para que de interpretaciones profundas y con fundamento usando IA, no solo significados basicos de cartas.
+
+### Work Summary
+Se implemento un sistema completo de interpretacion de Tarot con IA con las siguientes caracteristicas:
+
+**Archivos creados:**
+
+1. **`/src/app/api/tarot/interpret/route.ts`** - API route para interpretaciones con IA
+   - Usa z-ai-web-dev-sdk para generar interpretaciones profundas
+   - System prompt con personalidad de Hecate como tarotista experta
+   - Analisis de cartas en contexto de la pregunta del usuario
+   - Considera cartas derechas e invertidas
+   - Genera: analisis individual, conexiones, mensaje principal, consejo practico, reflexion final
+   - Parsing inteligente de la respuesta en secciones estructuradas
+   - Soporte para diferentes tipos de tiradas (single, three-card, five-card, celtic-cross)
+
+2. **`/src/components/TarotReadingResult.tsx`** - Componente de resultados de lectura
+   - Display de cartas con imagenes grandes y animaciones
+   - Secciones colapsables para cada parte de la interpretacion
+   - Boton TTS para escuchar la lectura completa
+   - Boton para guardar lectura en localStorage
+   - Boton para copiar texto al portapapeles
+   - Boton para compartir (Web Share API o fallback a copiar)
+   - Indicadores visuales de cartas invertidas (borde rojo, rotacion)
+   - Mapping correcto de nombres de cartas a imagenes en /tarot-cards/
+
+**Archivos modificados:**
+
+1. **`/src/app/cartas/page.tsx`** - Pagina de lectura de tarot completamente actualizada
+   - Estado para interpretacion, loading y errores
+   - Llamada automatica a la API cuando todas las cartas estan reveladas
+   - Integracion del componente TarotReadingResult
+   - Cartas con probabilidad del 30% de aparecer invertidas
+   - Transiciones suaves entre fases de la lectura
+   - Visualizacion simplificada antes de revelar todas las cartas
+   - Visualizacion completa con interpretacion IA despues de revelar
+
+**Flujo de lectura mejorado:**
+
+1. **Fase de bienvenida**: Hecate saluda y ofrece preguntas guiadas
+2. **Fase de seleccion**: Usuario elige pregunta y saca cartas
+3. **Fase de revelacion**: Cartas se voltean una a una con animaciones
+4. **Fase de interpretacion**: IA genera interpretacion profunda
+5. **Fase de resultados**: Interpretacion detallada con secciones interactivas
+
+**Tipos de tirada soportados:**
+- Single (1 carta): Lectura rapida
+- Three-card (3 cartas): Pasado, Presente, Futuro
+- Five-card (5 cartas): Situacion, Desafio, Pasado, Futuro, Consejo
+- Celtic-cross: Preparado para implementacion futura
+
+**Caracteristicas de la interpretacion IA:**
+
+- **Analisis individual**: Cada carta interpretada en contexto
+- **Conexiones**: Relaciones entre cartas, temas comunes, narrativa
+- **Mensaje principal**: Sintesis del consejo del tarot
+- **Consejo practico**: 2-3 acciones concretas
+- **Reflexion final**: Frase inspiradora para llevar
+
+**Correccion de imagenes:**
+- Mapping correcto de 22 arcanos mayores a archivos en /tarot-cards/
+- Fallback a imagen del Loco si no existe
+- Soporte para cartas invertidas (rotacion visual)
+
+**Funcionalidades adicionales:**
+- Historial de lecturas guardadas (hasta 50 en localStorage)
+- Text-to-speech para escuchar la interpretacion
+- Compartir lectura via Web Share API
+- Copiar lectura al portapapeles
+
+---
+## Task ID: 9 - tts-system
+### Work Task
+Implementar un sistema TTS (Text-to-Speech) con voz femenina clara, amable y relajante para las lecturas y meditaciones de Mystica.
+
+### Work Summary
+Se implemento un sistema completo de TTS con las siguientes caracteristicas:
+
+**Archivos creados:**
+
+1. **`/src/lib/ttsService.ts`** - Servicio core de TTS con Web Speech API
+   - Interface `VoiceConfig` para configuracion de voz
+   - Interface `SpeakOptions` para opciones de reproduccion
+   - Interface `TTSServiceState` para estado del servicio
+   - Presets de velocidad: normal (1.0), reading (0.9), relaxing (0.85), slow (0.8)
+   - Seleccion automatica de voz femenina espanola preferida
+   - Lista de preferencia de voces femeninas: Google espanol, Microsoft Laura, Monica, Penelope, etc.
+   - Funciones: `speak()`, `stop()`, `pause()`, `resume()`, `togglePause()`
+   - Funciones de utilidad: `isSupported()`, `getAvailableVoices()`, `getSelectedVoice()`
+   - Formateo de texto para mejor pronunciacion (limpieza de emojis, pausas naturales)
+   - Workaround para bug de Chrome que detiene speech despues de 15 segundos
+   - Funciones de formateo de lectura: `formatTarotReading()`, `formatRuneReading()`, `formatOracleReading()`, `formatMeditationGuide()`
+
+2. **`/src/hooks/useTTS.ts`** - Hook React para usar el servicio TTS
+   - Estados: `isSpeaking`, `isPaused`, `currentText`, `progress`
+   - Acciones: `speak()`, `stop()`, `pause()`, `resume()`, `togglePause()`
+   - Configuracion: `setConfig()`, `getConfig()`, `setSpeed()`, `setLanguage()`
+   - Utilidades de formateo: `formatTarotReading()`, `formatRuneReading()`, `formatOracleReading()`, `formatMeditationGuide()`
+   - Hooks adicionales: `useTTSToggle()` para escenarios simples, `useTTSReading()` para lecturas largas
+
+3. **`/src/components/TTSButton.tsx`** - Componentes de boton TTS
+   - `TTSButton` - Boton basico con animacion de ondas al hablar
+   - `FloatingTTSButton` - Boton flotante con panel de controles
+   - `CompactTTSButton` - Boton compacto para uso inline
+   - `TTSToggleButton` - Boton toggle simple para play/stop
+   - Animaciones con framer-motion para ondas y pulsos
+   - Soporte para tema oscuro/claro
+
+**Archivos modificados:**
+
+1. **`/src/app/cartas/page.tsx`** - Integracion TTS en lectura de Tarot
+   - Hook useTTS anadido
+   - Funcion `speakGuide()` para hablar texto de guia
+   - Generacion de `readingText` con formato de lectura
+   - Generacion de `interpretationText` para interpretaciones IA
+   - FloatingTTSButton para lectura completa de interpretacion
+
+2. **`/src/app/runas/page.tsx`** - Integracion TTS en lectura de Runas
+   - Hook useTTS anadido
+   - Generacion de `readingText` con formato de runas
+   - Funciones `speakGuide()` y `speakReading()`
+   - FloatingTTSButton para lectura completa
+
+3. **`/src/app/meditaciones/page.tsx`** - Integracion TTS en meditaciones
+   - Hook useTTS anadido
+   - CompactTTSButton en cada paso de meditacion
+   - Velocidad "relaxing" (0.85) para meditaciones
+
+4. **`/src/app/oraculo/page.tsx`** - Integracion TTS en oraculo
+   - Hook useTTS anadido
+   - Generacion de `readingText` con formato de oraculo
+   - Funcion `speakReading()` para lectura del mensaje
+   - FloatingTTSButton para lectura completa
+
+**Caracteristicas del sistema TTS:**
+
+1. **Seleccion inteligente de voz:**
+   - Busca automaticamente voces femeninas en espanol
+   - Orden de preferencia: Google espanol > Microsoft Laura > Monica > Penelope > etc.
+   - Fallback a voz por defecto si no hay voz femenina
+
+2. **Configuracion optimizada:**
+   - Rate 0.9 para lecturas (mas lento y claro)
+   - Rate 0.85 para meditaciones (mas relajante)
+   - Pitch 1.0 (tono normal)
+   - Volume 0.9
+
+3. **Formato de lectura para Tarot:**
+   - "Has seleccionado X cartas..."
+   - "En el pasado/presente/futuro, tienes la carta [nombre]..."
+   - "Esta carta representa [keywords]..."
+   - "Que estas cartas iluminen tu camino."
+
+4. **Formato de lectura para Runas:**
+   - "Las runas ancestrales han hablado..."
+   - "Primera/Segunda/Tercera, la runa [nombre], que significa [meaning]..."
+   - "Que la sabiduria de los antiguos te guie."
+
+5. **Formato de lectura para Oraculo:**
+   - "El oraculo ha revelado: [nombre]..."
+   - "Elemento: [element]..."
+   - "Mensaje: [message]..."
+   - "Guia: [guidance]..."
+   - "Que este mensaje resuene en tu corazon."
+
+6. **Limpieza de texto:**
+   - Eliminacion de emojis para mejor pronunciacion
+   - Insercion de pausas naturales en puntuacion
+   - Normalizacion de espacios

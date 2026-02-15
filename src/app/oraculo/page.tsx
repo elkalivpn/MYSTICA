@@ -1,19 +1,23 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowLeft, Sun, Crown, Shield, Sparkles, RefreshCw } from 'lucide-react'
+import { ArrowLeft, Sun, Crown, Shield, Sparkles, RefreshCw, Volume2, VolumeX, Headphones } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { useAuth } from '@/hooks/useAuth'
+import { useTTS } from '@/hooks/useTTS'
+import { FloatingTTSButton, CompactTTSButton } from '@/components/TTSButton'
 import { oracleCards, OracleCard } from '@/data/oracle-cards'
 import { NPC3DGuide } from '@/components/NPC3DGuide'
 
 export default function OraclePage() {
   const { isAdmin, isPremium } = useAuth()
   const canAccessPremium = isAdmin || isPremium
+  
+  const tts = useTTS()
 
   const [currentCard, setCurrentCard] = useState<OracleCard | null>(null)
   const [isDrawing, setIsDrawing] = useState(false)
@@ -70,7 +74,30 @@ export default function OraclePage() {
     setCurrentCard(null)
     setShowGuide(true)
     setGuideDialogue('')
+    tts.stop()
   }
+
+  // Generate reading text for TTS
+  const readingText = useMemo(() => {
+    if (!currentCard) return ''
+    
+    return tts.formatOracleReading({
+      name: currentCard.name,
+      element: currentCard.element,
+      message: currentCard.message,
+      guidance: currentCard.guidance,
+      affirmation: currentCard.affirmation
+    })
+  }, [currentCard, tts])
+
+  // Speak the oracle reading
+  const speakReading = useCallback(() => {
+    if (tts.isSpeaking) {
+      tts.stop()
+    } else if (readingText) {
+      tts.speak(readingText, { rate: 0.85 })
+    }
+  }, [tts, readingText])
 
   const getElementEmoji = (element: string) => {
     const emojis: Record<string, string> = {
@@ -260,6 +287,16 @@ export default function OraclePage() {
           </div>
         </div>
       </main>
+
+      {/* Floating TTS Button for reading */}
+      {readingText && (
+        <FloatingTTSButton
+          text={readingText}
+          position="bottom-right"
+          showControls={true}
+          speedPreset="reading"
+        />
+      )}
     </div>
   )
 }

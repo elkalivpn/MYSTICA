@@ -25,6 +25,8 @@ import { useAppSound } from '@/hooks/useSettings'
 import { useConfetti } from '@/hooks/useConfetti'
 import { useMeditationProgress } from '@/hooks/useMeditationProgress'
 import { useReminders, meditationAchievements, MeditationAchievement } from '@/hooks/useReminders'
+import { useTTS } from '@/hooks/useTTS'
+import { TTSButton, CompactTTSButton } from '@/components/TTSButton'
 import { ReminderPanel } from '@/components/ReminderPanel'
 import { useChallenges } from '@/hooks/useChallenges'
 import { useLevelSystem } from '@/hooks/useLevelSystem'
@@ -85,6 +87,7 @@ export default function MeditationsPage() {
   const reminders = useReminders()
   const challenges = useChallenges()
   const levelSystem = useLevelSystem()
+  const tts = useTTS()
   
   // Initialize weekly challenges
   useEffect(() => {
@@ -822,8 +825,16 @@ export default function MeditationsPage() {
                         <Progress value={((currentStep + 1) / selectedMeditation.steps.length) * 100} className="h-2" />
                       </div>
 
-                      <div className="bg-mystica-dark-300/50 rounded-xl p-6 mb-6">
+                      <div className="bg-mystica-dark-300/50 rounded-xl p-6 mb-6 relative">
                         <p className="text-white text-lg text-center">{selectedMeditation.steps[currentStep]}</p>
+                        
+                        {/* TTS Button for current step */}
+                        <div className="absolute top-2 right-2">
+                          <CompactTTSButton
+                            text={selectedMeditation.steps[currentStep]}
+                            speedPreset="relaxing"
+                          />
+                        </div>
                       </div>
 
                       <div className="flex items-center justify-center gap-4">
