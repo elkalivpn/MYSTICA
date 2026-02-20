@@ -16,19 +16,93 @@ import { DailyCheckIn } from '@/components/DailyCheckIn'
 import { getRotatingQuote } from '@/data/quotes'
 import Image from 'next/image'
 
-const features = [
-  { title: 'Tarot', desc: '22 Arcanos Mayores', icon: Sparkles, href: '/cartas', gradient: 'from-purple-500 to-pink-500', free: '3 cartas', premium: '5 cartas', popular: true },
-  { title: 'Oráculo', desc: 'Mensajes del universo', icon: Sun, href: '/oraculo', gradient: 'from-yellow-500 to-orange-500', free: '1 mensaje', premium: 'Ilimitado' },
-  { title: 'Runas', desc: 'Sabiduría nórdica', icon: Star, href: '/runas', gradient: 'from-blue-500 to-cyan-500', free: 'Básica', premium: 'Completa' },
-  { title: 'Horóscopo', desc: 'Predicciones diarias', icon: Calendar, href: '/horoscopo', gradient: 'from-pink-500 to-rose-500', free: 'Hoy', premium: 'Semanal', new: true },
-  { title: 'Compatibilidad', desc: 'Conexión zodiacal', icon: Heart, href: '/compatibilidad', gradient: 'from-red-500 to-pink-500', free: 'Básica', premium: 'Detallada' },
-  { title: 'Luna', desc: 'Fases y rituales', icon: Moon, href: '/calendario-lunar', gradient: 'from-indigo-500 to-purple-500', free: 'Actual', premium: 'Predicciones' },
-  { title: 'Sueños', desc: 'Análisis onírico', icon: Moon, href: '/suenos', gradient: 'from-violet-500 to-purple-600', free: '5 sueños', premium: 'Ilimitado', new: true },
-  { title: 'Numerología', desc: 'Poder de números', icon: Hash, href: '/numerologia', gradient: 'from-cyan-500 to-teal-500', free: 'Camino vida', premium: 'Completo', new: true },
-  { title: 'Rituales', desc: 'Magia práctica', icon: Sparkles, href: '/rituales', gradient: 'from-emerald-500 to-green-600', free: '4 rituales', premium: 'Todos', new: true },
-  { title: 'Cristales', desc: 'Guía de piedras', icon: Gem, href: '/cristales', gradient: 'from-pink-400 to-purple-500', free: '6 cristales', premium: 'Todos', new: true },
-  { title: 'Meditaciones', desc: 'Paz interior', icon: Headphones, href: '/meditaciones', gradient: 'from-indigo-400 to-purple-500', free: '3 sesiones', premium: 'Todas', new: true },
-  { title: 'Astrología', desc: '12 signos', icon: Star, href: '/astrologia', gradient: 'from-amber-500 to-orange-500', free: 'Info básica', premium: 'Carta natal' },
+// Guías espirituales 3D con imágenes hiperrealistas
+const npcGuides = [
+  {
+    id: 'hecate',
+    name: 'Hécate',
+    title: 'Diosa de la Magia',
+    culture: 'Griega',
+    domain: 'Tarot',
+    href: '/cartas',
+    image: '/guides/hecate-3d.png',
+    gradient: 'from-purple-600 to-pink-600',
+    description: 'Guardiana de las encrucijadas y el tarot',
+    color: '#9333ea',
+  },
+  {
+    id: 'frigg',
+    name: 'Frigg',
+    title: 'Madre del Cosmos',
+    culture: 'Nórdica',
+    domain: 'Runas',
+    href: '/runas',
+    image: '/guides/frigg-3d.png',
+    gradient: 'from-blue-500 to-cyan-500',
+    description: 'Diosa de la sabiduría y las runas',
+    color: '#3b82f6',
+  },
+  {
+    id: 'selene',
+    name: 'Selene',
+    title: 'Señora de la Luna',
+    culture: 'Griega',
+    domain: 'Luna',
+    href: '/calendario-lunar',
+    image: '/guides/selene-3d.png',
+    gradient: 'from-purple-400 to-indigo-500',
+    description: 'Diosa de la Luna y sus ciclos',
+    color: '#a855f7',
+  },
+  {
+    id: 'morpheus',
+    name: 'Morfeo',
+    title: 'Señor de los Sueños',
+    culture: 'Griega',
+    domain: 'Sueños',
+    href: '/suenos',
+    image: '/guides/morpheus-3d.png',
+    gradient: 'from-indigo-500 to-violet-600',
+    description: 'Dios de los sueños y visiones',
+    color: '#6366f1',
+  },
+  {
+    id: 'isis',
+    name: 'Isis',
+    title: 'Madre de la Magia',
+    culture: 'Egipcia',
+    domain: 'Cristales',
+    href: '/cristales',
+    image: '/guides/isis-3d.png',
+    gradient: 'from-emerald-500 to-teal-600',
+    description: 'Diosa de la magia y cristales',
+    color: '#10b981',
+  },
+  {
+    id: 'thoth',
+    name: 'Thoth',
+    title: 'Escriba de los Dioses',
+    culture: 'Egipcia',
+    domain: 'Astrología',
+    href: '/astrologia',
+    image: '/guides/thoth-3d.png',
+    gradient: 'from-amber-500 to-orange-500',
+    description: 'Dios de la sabiduría y astrología',
+    color: '#f59e0b',
+  },
+]
+
+const extraFeatures = [
+  { title: 'Oráculo', desc: 'Mensajes del universo', icon: Sun, href: '/oraculo', gradient: 'from-yellow-500 to-orange-500' },
+  { title: 'Horóscopo', desc: 'Predicciones diarias', icon: Calendar, href: '/horoscopo', gradient: 'from-pink-500 to-rose-500', premium: true },
+  { title: 'Carta Natal', desc: 'Tu mapa astral', icon: Star, href: '/carta-natal', gradient: 'from-purple-500 to-violet-600' },
+  { title: 'Afirmaciones', desc: 'Poderosas palabras', icon: Sparkles, href: '/afirmaciones', gradient: 'from-amber-400 to-orange-500' },
+  { title: 'Compatibilidad', desc: 'Conexión zodiacal', icon: Heart, href: '/compatibilidad', gradient: 'from-red-500 to-pink-500' },
+  { title: 'Numerología', desc: 'Poder de números', icon: Hash, href: '/numerologia', gradient: 'from-cyan-500 to-teal-500' },
+  { title: 'Rituales', desc: 'Magia práctica', icon: Sparkles, href: '/rituales', gradient: 'from-emerald-500 to-green-600' },
+  { title: 'Meditaciones', desc: 'Paz interior', icon: Headphones, href: '/meditaciones', gradient: 'from-indigo-400 to-purple-500', highlight: true },
+  { title: 'Perfil', desc: 'Tu identidad cósmica', icon: Crown, href: '/perfil-cosmico', gradient: 'from-yellow-400 to-amber-500' },
+  { title: 'Ajustes', desc: 'Personaliza tu app', icon: Users, href: '/ajustes', gradient: 'from-gray-500 to-slate-600' },
 ]
 
 export default function HomePage() {
@@ -46,42 +120,43 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen relative">
-      {/* Background Image */}
+      {/* Background Image - Templo Borobudur */}
       <div className="fixed inset-0 z-0">
         <Image
-          src="/temple-bg.png"
-          alt="Mystical Temple Background"
+          src="/backgrounds/borobudur-temple.png"
+          alt="Templo Borobudur - Fondo Místico"
           fill
-          className="object-cover opacity-40"
+          className="object-cover opacity-30"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-mystica-dark-300/80 via-mystica-dark-300/70 to-mystica-dark-300/95" />
+        <div className="absolute inset-0 bg-gradient-to-b from-mystica-dark-300/90 via-mystica-dark-300/80 to-mystica-dark-300/95" />
+      </div>
+
+      {/* Estrellas animadas */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        {[...Array(60)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-white rounded-full"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              opacity: [0.1, 1, 0.1],
+              scale: [0.5, 1.5, 0.5],
+            }}
+            transition={{
+              duration: 3 + Math.random() * 3,
+              repeat: Infinity,
+              delay: Math.random() * 3,
+            }}
+          />
+        ))}
       </div>
 
       {/* Hero Section */}
-      <section className="relative z-10 min-h-[90vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          {[...Array(80)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-white rounded-full"
-              style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                opacity: [0.1, 1, 0.1],
-                scale: [0.5, 1.5, 0.5],
-              }}
-              transition={{
-                duration: 3 + Math.random() * 3,
-                repeat: Infinity,
-                delay: Math.random() * 3,
-              }}
-            />
-          ))}
-        </div>
-
+      <section className="relative z-10 min-h-[85vh] flex items-center justify-center overflow-hidden">
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -110,7 +185,7 @@ export default function HomePage() {
 
             <h1 className="text-5xl sm:text-6xl md:text-8xl font-bold mb-6">
               <span className="bg-gradient-to-r from-mystica-purple-300 via-mystica-gold-300 to-mystica-purple-300 bg-clip-text text-transparent drop-shadow-lg">
-                Mystica
+                MYSTICA
               </span>
             </h1>
             <p className="text-xl sm:text-2xl text-gray-200 mb-4 font-light tracking-wide">
@@ -121,8 +196,12 @@ export default function HomePage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
-              className="mb-8 max-w-2xl mx-auto"
+              className="mb-8 max-w-2xl mx-auto p-4 rounded-xl bg-mystica-dark-200/60 border border-mystica-purple-700/30 backdrop-blur-sm"
             >
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <Sparkles className="w-4 h-4 text-mystica-gold-400" />
+                <span className="text-xs text-mystica-gold-400 font-medium">Frase del día</span>
+              </div>
               <p className="text-lg text-mystica-purple-200 italic">"{quote.text}"</p>
               {quote.author && <p className="text-sm text-gray-400 mt-2">— {quote.author}</p>}
             </motion.div>
@@ -181,84 +260,137 @@ export default function HomePage() {
         </motion.div>
       </section>
 
-      {/* Features Grid */}
-      <section className="relative z-10 py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+      {/* Guías Espirituales 3D - SECCIÓN PRINCIPAL */}
+      <section className="relative z-10 py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-mystica-purple-300 to-mystica-gold-300 bg-clip-text text-transparent">
-              Explora el Misticismo
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4 bg-gradient-to-r from-mystica-purple-300 to-mystica-gold-300 bg-clip-text text-transparent">
+              Elige tu Guía Espiritual
             </h2>
-            <p className="text-gray-300 text-lg">Descubre todas las herramientas a tu disposición</p>
+            <p className="text-gray-400 text-lg">Deidades ancestrales te esperan para guiarte</p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {features.map((feature, index) => {
-              const Icon = feature.icon
-              return (
-                <motion.div
-                  key={feature.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.05 }}
-                >
-                  <Link href={feature.href}>
-                    <Card className="relative group h-full bg-mystica-dark-200/60 border-mystica-purple-700/40 hover:border-mystica-gold-500/50 transition-all duration-300 overflow-hidden hover:scale-[1.02] backdrop-blur-sm">
-                      {feature.popular && (
-                        <span className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-mystica-gold-500/20 text-mystica-gold-300 text-[10px] font-medium border border-mystica-gold-500/30">
-                          Popular
-                        </span>
-                      )}
-                      {feature.new && (
-                        <span className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-green-500/20 text-green-300 text-[10px] font-medium border border-green-500/30">
-                          Nuevo
-                        </span>
-                      )}
-                      <CardContent className="p-5">
-                        <div className={cn('w-12 h-12 rounded-xl bg-gradient-to-br flex items-center justify-center mb-4 shadow-lg', feature.gradient)}>
-                          <Icon className="w-6 h-6 text-white" />
-                        </div>
-                        <h3 className="text-lg font-bold text-white mb-1 group-hover:text-mystica-gold-300 transition-colors">
-                          {feature.title}
-                        </h3>
-                        <p className="text-gray-400 text-sm mb-4">{feature.desc}</p>
-                        <div className="flex items-center justify-between text-xs">
-                          <div className="flex items-center gap-1">
-                            <span className="text-gray-500">Free:</span>
-                            <span className="text-gray-300">{feature.free}</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Crown className="w-3 h-3 text-mystica-gold-400" />
-                            <span className="text-mystica-gold-300">{feature.premium}</span>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                </motion.div>
-              )
-            })}
-            {isAdmin && (
-              <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-                <Link href="/admin">
-                  <Card className="h-full bg-gradient-to-br from-red-900/40 to-red-800/20 border-red-500/40 hover:border-red-500/70 transition-all duration-300 hover:scale-[1.02] backdrop-blur-sm">
-                    <CardContent className="p-5">
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center mb-4 shadow-lg">
-                        <Shield className="w-6 h-6 text-white" />
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+            {npcGuides.map((npc, index) => (
+              <motion.div
+                key={npc.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <Link href={npc.href}>
+                  <Card className="relative group h-full bg-mystica-dark-200/60 border-mystica-purple-700/40 hover:border-mystica-gold-500/50 transition-all duration-500 overflow-hidden hover:scale-[1.02] backdrop-blur-sm">
+                    {/* Imagen 3D del guía */}
+                    <div className="relative w-28 h-28 sm:w-36 sm:h-36 mx-auto mt-6">
+                      <motion.div
+                        className="absolute inset-0 rounded-full opacity-50 blur-xl"
+                        style={{ background: `linear-gradient(135deg, ${npc.color} 0%, ${npc.color}80 100%)` }}
+                        animate={{ scale: [1, 1.2, 1] }}
+                        transition={{ duration: 3, repeat: Infinity }}
+                      />
+                      <div className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-mystica-purple-500/30 group-hover:border-mystica-gold-500/50 transition-all duration-300">
+                        <Image
+                          src={npc.image}
+                          alt={npc.name}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-110"
+                          priority
+                        />
                       </div>
-                      <h3 className="text-lg font-bold text-white mb-1">Panel Admin</h3>
-                      <p className="text-gray-400 text-sm">Control total de la app</p>
-                      <Badge variant="destructive" className="mt-4">Solo Admin</Badge>
+                    </div>
+
+                    <CardContent className="p-4 text-center">
+                      <h3 className="text-lg sm:text-xl font-bold text-white mb-1 group-hover:text-mystica-gold-300 transition-colors">
+                        {npc.name}
+                      </h3>
+                      <p className="text-xs text-mystica-purple-300 mb-2">{npc.title}</p>
+                      <div className="flex items-center justify-center gap-2 mb-2">
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-mystica-purple-800/50 text-mystica-purple-200 border border-mystica-purple-600/30">
+                          {npc.culture}
+                        </span>
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-mystica-gold-800/30 text-mystica-gold-300 border border-mystica-gold-600/30">
+                          {npc.domain}
+                        </span>
+                      </div>
+                      <p className="text-xs text-gray-400">{npc.description}</p>
+
+                      <div className="flex justify-center mt-4">
+                        <motion.div
+                          className="w-8 h-8 rounded-full bg-mystica-purple-700/50 flex items-center justify-center border border-mystica-purple-500/30 group-hover:bg-mystica-gold-600/30 group-hover:border-mystica-gold-500/50 transition-all duration-300"
+                          whileHover={{ scale: 1.1 }}
+                        >
+                          <ArrowRight className="w-4 h-4 text-mystica-purple-300 group-hover:text-mystica-gold-300 transition-colors" />
+                        </motion.div>
+                      </div>
                     </CardContent>
                   </Card>
                 </Link>
               </motion.div>
-            )}
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Más Funciones */}
+      <section className="relative z-10 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-8"
+          >
+            <h2 className="text-2xl font-bold mb-2 text-gray-300">
+              Más Funciones
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-3 sm:grid-cols-5 gap-3">
+            {extraFeatures.map((feature, index) => {
+              const Icon = feature.icon
+              return (
+                <motion.div
+                  key={feature.title}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.05 }}
+                >
+                  <Link href={feature.href}>
+                    <motion.div
+                      className={cn(
+                        "group flex flex-col items-center p-3 rounded-xl transition-all duration-300",
+                        feature.highlight
+                          ? "bg-indigo-900/50 border-2 border-indigo-500/50 hover:border-indigo-400"
+                          : "bg-mystica-dark-200/50 border border-mystica-purple-700/30 hover:border-mystica-gold-500/40"
+                      )}
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <motion.div
+                        className={cn('w-10 h-10 rounded-xl bg-gradient-to-br flex items-center justify-center mb-2 shadow-lg', feature.gradient)}
+                        whileHover={{ rotate: 10, scale: 1.1 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <Icon className="w-5 h-5 text-white" />
+                      </motion.div>
+                      <span className="text-xs text-gray-300 text-center group-hover:text-white transition-colors">
+                        {feature.title}
+                      </span>
+                      {feature.premium && (
+                        <Crown className="w-3 h-3 text-yellow-500 mt-1" />
+                      )}
+                    </motion.div>
+                  </Link>
+                </motion.div>
+              )
+            })}
           </div>
         </div>
       </section>
